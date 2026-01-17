@@ -3,41 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PFCD Lab Portal</title>
+  <title>PFCD Lab Exam Portal</title>
 
   <style>
     /* =======================
-       Minimal Theme System
+       Ubuntu/Jupyter-like Theme
+       (Offline - no CDN)
     ======================== */
+
     :root{
-      --bg: #0f1115;
-      --surface: #151923;
-      --card: #1b2130;
-      --text: #e8eefc;
-      --muted: #aab4cf;
-      --border: rgba(255,255,255,.10);
-      --shadow: 0 10px 25px rgba(0,0,0,.25);
+      --bg: #0f0f0f;
+      --surface: #141414;
+      --card: #161616;
 
-      --primary: #4f46e5; /* Indigo */
-      --primarySoft: rgba(79,70,229,.12);
+      --text: #f2f2f2;
+      --muted: #b8b8b8;
 
-      --radius: 16px;
+      --border: rgba(255,255,255,.12);
+      --shadow: none;
+
+      --primary: #e95420; /* Ubuntu orange */
+      --primarySoft: rgba(233,84,32,.12);
+
+      --radius: 12px;
+
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
 
-    /* Light theme overrides */
     html[data-theme="light"]{
-      --bg: #f6f7fb;
+      --bg: #f5f5f5;
       --surface: #ffffff;
       --card: #ffffff;
-      --text: #0d1220;
+
+      --text: #111827;
       --muted: #4b5563;
-      --border: rgba(0,0,0,.10);
-      --shadow: 0 10px 25px rgba(0,0,0,.08);
+
+      --border: rgba(0,0,0,.12);
+      --shadow: none;
 
       --primary: #2563eb;
-      --primarySoft: rgba(37,99,235,.12);
+      --primarySoft: rgba(37,99,235,.10);
     }
 
     *{ box-sizing:border-box; }
@@ -48,15 +54,6 @@
       color: var(--text);
     }
 
-    /* =======================
-       Layout
-    ======================== */
-    .container{
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 18px;
-    }
-
     header{
       position: sticky;
       top:0;
@@ -65,31 +62,31 @@
       border-bottom: 1px solid var(--border);
     }
 
+    .container{
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
     .top{
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       gap:14px;
       flex-wrap:wrap;
-      padding: 14px 0;
-    }
-
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width: 220px;
+      padding: 10px 0 14px;
     }
 
     .brand h1{
       margin:0;
       font-size: 16px;
-      letter-spacing: .2px;
+      letter-spacing:.2px;
     }
     .brand p{
-      margin:0;
+      margin:6px 0 0;
       font-size: 12px;
       color: var(--muted);
+      line-height:1.35;
     }
 
     .controls{
@@ -99,7 +96,7 @@
       flex-wrap:wrap;
       justify-content:flex-end;
       flex:1;
-      min-width: 260px;
+      min-width: 280px;
     }
 
     .search{
@@ -110,8 +107,7 @@
       background: var(--surface);
       border-radius: var(--radius);
       padding: 10px 12px;
-      min-width: min(520px, 100%);
-      box-shadow: var(--shadow);
+      min-width: min(560px, 100%);
     }
 
     .search input{
@@ -128,29 +124,57 @@
       background: var(--surface);
       color: var(--text);
       padding: 10px 12px;
-      border-radius: 14px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 700;
       font-size: 13px;
-      transition: .15s ease;
-      box-shadow: none;
+      transition: .12s ease;
     }
     .btn:hover{
+      border-color: rgba(233,84,32,.40);
       transform: translateY(-1px);
-      border-color: rgba(79,70,229,.35);
+    }
+    .btn.primary{
+      border-color: rgba(233,84,32,.45);
+      background: var(--primarySoft);
     }
 
-    .btn.primary{
-      border-color: rgba(79,70,229,.45);
-      background: var(--primarySoft);
+    .row2{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      width:100%;
+    }
+
+    .chipRow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      width:100%;
+    }
+
+    .chip{
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .chip:hover{
+      border-color: rgba(233,84,32,.45);
       color: var(--text);
     }
 
     .grid{
       display:grid;
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 330px 1fr;
       gap: 16px;
-      padding: 18px 0 60px;
+      padding: 16px 0 50px;
     }
 
     @media (max-width: 960px){
@@ -161,7 +185,6 @@
       border: 1px solid var(--border);
       background: var(--surface);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
       overflow:hidden;
     }
 
@@ -169,37 +192,39 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 14px 14px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--border);
     }
 
     .panelHead h2{
       margin:0;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: .6px;
+      letter-spacing: .7px;
     }
 
     .badge{
       font-size: 12px;
-      padding: 6px 10px;
+      padding: 5px 10px;
       border-radius: 999px;
       border: 1px solid var(--border);
       color: var(--muted);
       background: transparent;
     }
 
-    /* =======================
-       Sets list
-    ======================== */
+    /* LEFT sets scroll */
     .setList{
       padding: 12px;
       display:flex;
       flex-direction:column;
       gap:10px;
+
+      max-height: 70vh;
+      overflow: auto;
     }
 
+    /* FIX: set text always visible */
     .setBtn{
       width: 100%;
       text-align:left;
@@ -208,13 +233,14 @@
       border-radius: var(--radius);
       padding: 12px;
       cursor:pointer;
-      transition:.15s ease;
+      transition:.12s ease;
+      color: var(--text);
     }
     .setBtn:hover{
-      border-color: rgba(79,70,229,.35);
+      border-color: rgba(233,84,32,.35);
     }
     .setBtn.active{
-      border-color: rgba(79,70,229,.55);
+      border-color: rgba(233,84,32,.55);
       background: var(--primarySoft);
     }
 
@@ -226,6 +252,7 @@
     }
     .setTitleRow b{
       font-size: 14px;
+      color: var(--text);
     }
     .setDesc{
       margin-top:6px;
@@ -234,11 +261,11 @@
       line-height:1.35;
     }
 
-    /* =======================
-       Questions
-    ======================== */
-    .content{
+    /* RIGHT questions scroll */
+    #questionContainer{
       padding: 14px;
+      max-height: 72vh;
+      overflow: auto;
     }
 
     .qCard{
@@ -260,9 +287,10 @@
       gap: 12px;
       margin-bottom: 10px;
     }
+
     .qTop h3{
       margin:0;
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.35;
       font-weight: 800;
     }
@@ -279,7 +307,7 @@
     .opts{
       margin: 10px 0;
       padding: 10px 12px;
-      border-radius: 14px;
+      border-radius: 10px;
       border: 1px dashed var(--border);
       color: var(--muted);
       background: transparent;
@@ -290,19 +318,21 @@
     pre{
       margin:0;
       border: 1px solid var(--border);
-      background: rgba(0,0,0,.25);
-      border-radius: 14px;
+      background: rgba(0,0,0,.35);
+      border-radius: 10px;
       padding: 12px;
       overflow:auto;
       font-family: var(--mono);
-      font-size: 12.5px;
-      line-height: 1.35;
+      font-size: 12.8px;
+      line-height: 1.4;
       white-space: pre-wrap;
       word-wrap: break-word;
+      color: var(--text);
     }
 
     html[data-theme="light"] pre{
-      background: #ffffff;
+      background: #f8fafc;
+      color: #111827;
     }
 
     .qActions{
@@ -317,20 +347,17 @@
       font-size: 12px;
       color: var(--muted);
       border-top: 1px solid var(--border);
+      line-height: 1.35;
     }
 
-    /* =======================
-       Toast
-    ======================== */
     .toast{
       position: fixed;
       right: 14px;
       bottom: 14px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 10px 12px;
+      border-radius: 10px;
+      padding: 9px 12px;
       font-size: 13px;
       display:none;
     }
@@ -343,6 +370,16 @@
       .controls{ width: 100%; }
       .qTop{ flex-direction: column; }
       .pill{ align-self:flex-start; }
+      #questionContainer{ max-height: unset; }
+      .setList{ max-height: unset; }
+    }
+
+    /* Print mode (offline backup as PDF) */
+    @media print{
+      header, .panel:first-child{ display:none; }
+      body{ background:white; color:black; }
+      pre{ background:white !important; color:black !important; }
+      .qCard{ page-break-inside: avoid; }
     }
   </style>
 </head>
@@ -352,8 +389,11 @@
     <div class="container">
       <div class="top">
         <div class="brand">
-          <h1>PFCD Lab Portal</h1>
-          <p>Set-wise questions • Full code • Copy fast</p>
+          <h1>PFCD Lab Exam Portal</h1>
+          <p>
+            ✅ Set-wise solutions • Full questions • Copy fast<br>
+            ✅ Works offline (single HTML) • Theme switcher
+          </p>
         </div>
 
         <div class="controls">
@@ -362,7 +402,12 @@
             <button class="btn" id="clearBtn">Clear</button>
           </div>
 
-          <button class="btn primary" id="themeBtn">Toggle Theme</button>
+          <div class="row2">
+            <button class="btn primary" id="themeBtn">Toggle Theme</button>
+            <button class="btn" id="searchModeBtn">Search: Active Set</button>
+          </div>
+
+          <div class="chipRow" id="chipRow"></div>
         </div>
       </div>
     </div>
@@ -376,9 +421,12 @@
           <h2>Sets</h2>
           <span class="badge" id="countBadge">0 Questions</span>
         </div>
+
         <div class="setList" id="setList"></div>
+
         <div class="hint">
-          ✅ Tip: Ctrl+F / Cmd+F works too. This portal is just faster to search & copy.
+          ✅ Offline tip: save this page as file and open anytime.<br>
+          ✅ Print option: Ctrl+P / Cmd+P → Save as PDF.
         </div>
       </section>
 
@@ -388,7 +436,14 @@
           <h2 id="activeSetTitle">SET</h2>
           <span class="badge">Ready</span>
         </div>
-        <div class="content" id="questionContainer"></div>
+
+        <div id="questionContainer"></div>
+
+        <div class="hint">
+          Copy options:
+          <b>Copy Full</b> = question + full code.
+          <b>Copy Clean</b> = code only (no sample output/comment block).
+        </div>
       </section>
     </div>
   </main>
@@ -398,6 +453,7 @@
   <script>
     /* =======================
        DATA (Set-wise)
+       (Offline embedded)
     ======================== */
     const DATA = [
       {
@@ -978,7 +1034,7 @@ print("Program 2 completed ->", summary_file)
     ];
 
     /* =======================
-       Helpers
+       UI Logic
     ======================== */
     const $ = (id) => document.getElementById(id);
 
@@ -989,7 +1045,12 @@ print("Program 2 completed ->", summary_file)
     const searchInput = $("searchInput");
     const toast = $("toast");
 
+    const chipRow = $("chipRow");
+
     let activeSet = DATA[0].set;
+    let searchModeAll = false; // false = active set only
+
+    const CHIP_KEYWORDS = ["duplicate", "numpy", "prime", "file", "exception", "dictionary", "lambda", "string"];
 
     function showToast(msg){
       toast.textContent = msg;
@@ -999,6 +1060,50 @@ print("Program 2 completed ->", summary_file)
 
     function escapeHTML(str){
       return str.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+    }
+
+    // Copy helpers
+    function cleanCode(code){
+      // Removes lines that look like sample output blocks (optional, safe)
+      const lines = code.split("\n");
+      const filtered = lines.filter(line => {
+        const t = line.trim();
+        if (t.startsWith("# Sample Output")) return false;
+        if (t.startsWith("# Output")) return false;
+        if (t.startsWith("# Example Output")) return false;
+        return true;
+      });
+      return filtered.join("\n").trim() + "\n";
+    }
+
+    window.copyFull = function(setName, idx){
+      const setObj = DATA.find(x=>x.set===setName);
+      const item = setObj.questions[idx];
+      navigator.clipboard.writeText(item.code).then(()=>{
+        showToast("Copied Full ✅");
+      }).catch(()=>showToast("Copy failed ❌"));
+    }
+
+    window.copyClean = function(setName, idx){
+      const setObj = DATA.find(x=>x.set===setName);
+      const item = setObj.questions[idx];
+      navigator.clipboard.writeText(cleanCode(item.code)).then(()=>{
+        showToast("Copied Clean ✅");
+      }).catch(()=>showToast("Copy failed ❌"));
+    }
+
+    function renderChips(){
+      chipRow.innerHTML = "";
+      CHIP_KEYWORDS.forEach(k=>{
+        const c = document.createElement("button");
+        c.className = "chip";
+        c.textContent = k;
+        c.onclick = ()=>{
+          searchInput.value = k;
+          renderQuestions();
+        };
+        chipRow.appendChild(c);
+      });
     }
 
     function renderSets(){
@@ -1019,49 +1124,63 @@ print("Program 2 completed ->", summary_file)
           </div>
           <div class="setDesc">${s.desc}</div>
         `;
-
         setList.appendChild(btn);
       });
     }
 
     function renderQuestions(){
-      const setObj = DATA.find(x=>x.set === activeSet);
-      activeSetTitle.textContent = setObj.set;
-      countBadge.textContent = setObj.questions.length + " Questions";
-
       const query = searchInput.value.trim().toLowerCase();
-
       questionContainer.innerHTML = "";
-      setObj.questions.forEach((item, idx)=>{
-        const searchable = (item.title + " " + item.code).toLowerCase();
-        if(query && !searchable.includes(query)) return;
 
-        const card = document.createElement("div");
-        card.className = "qCard";
+      // Decide which sets to scan
+      const setsToRender = searchModeAll ? DATA : [DATA.find(x=>x.set===activeSet)];
 
-        const opts = item.options && item.options.length
-          ? `<div class="opts">
-              <b>Options:</b><br>
-              ${item.options.map(o => `• ${escapeHTML(o)}`).join("<br>")}
-            </div>`
-          : "";
+      if(!searchModeAll){
+        const setObj = DATA.find(x=>x.set===activeSet);
+        activeSetTitle.textContent = setObj.set;
+        countBadge.textContent = setObj.questions.length + " Questions";
+      }else{
+        activeSetTitle.textContent = "ALL SETS";
+        let totalQ = 0;
+        DATA.forEach(s=> totalQ += s.questions.length);
+        countBadge.textContent = totalQ + " Questions";
+      }
 
-        card.innerHTML = `
-          <div class="qTop">
-            <h3>${escapeHTML(item.title)}</h3>
-            <span class="pill">Q${idx+1}</span>
-          </div>
-          ${opts}
-          <pre id="code-${activeSet}-${idx}">${escapeHTML(item.code)}</pre>
-          <div class="qActions">
-            <button class="btn primary" onclick="copyCode('${activeSet}', ${idx})">Copy Code</button>
-          </div>
-        `;
+      let shown = 0;
 
-        questionContainer.appendChild(card);
+      setsToRender.forEach((setObj)=>{
+        setObj.questions.forEach((item, idx)=>{
+          const searchable = (setObj.set + " " + item.title + " " + item.code).toLowerCase();
+          if(query && !searchable.includes(query)) return;
+
+          shown++;
+
+          const opts = item.options && item.options.length
+            ? `<div class="opts">
+                <b>Options:</b><br>
+                ${item.options.map(o => `• ${escapeHTML(o)}`).join("<br>")}
+              </div>`
+            : "";
+
+          const card = document.createElement("div");
+          card.className = "qCard";
+          card.innerHTML = `
+            <div class="qTop">
+              <h3>${escapeHTML(item.title)}</h3>
+              <span class="pill">${setObj.set} • Q${idx+1}</span>
+            </div>
+            ${opts}
+            <pre>${escapeHTML(item.code)}</pre>
+            <div class="qActions">
+              <button class="btn primary" onclick="copyFull('${setObj.set}', ${idx})">Copy Full</button>
+              <button class="btn" onclick="copyClean('${setObj.set}', ${idx})">Copy Clean</button>
+            </div>
+          `;
+          questionContainer.appendChild(card);
+        });
       });
 
-      if(questionContainer.innerHTML.trim() === ""){
+      if(shown === 0){
         questionContainer.innerHTML = `
           <div class="qCard">
             <div class="qTop">
@@ -1069,24 +1188,15 @@ print("Program 2 completed ->", summary_file)
               <span class="pill">Search</span>
             </div>
             <div class="opts">
-              Try keywords: <b>numpy</b>, <b>duplicate</b>, <b>prime</b>, <b>file</b>, <b>exception</b>, <b>dictionary</b>
+              Try: <b>numpy</b>, <b>duplicate</b>, <b>prime</b>, <b>file</b>, <b>exception</b>, <b>dictionary</b>
             </div>
           </div>
         `;
       }
     }
 
-    window.copyCode = function(setName, idx){
-      const el = document.getElementById(`code-${setName}-${idx}`);
-      navigator.clipboard.writeText(el.innerText).then(()=>{
-        showToast("Copied ✅");
-      }).catch(()=>{
-        showToast("Copy failed ❌");
-      });
-    };
-
     /* =======================
-       Theme Switcher
+       Theme Switcher (Offline)
     ======================== */
     function setTheme(t){
       document.documentElement.setAttribute("data-theme", t);
@@ -1096,13 +1206,24 @@ print("Program 2 completed ->", summary_file)
     const savedTheme = localStorage.getItem("pfcd_theme");
     if(savedTheme === "light" || savedTheme === "dark"){
       setTheme(savedTheme);
-    } else {
-      setTheme("dark"); // default
+    }else{
+      setTheme("dark");
     }
 
     $("themeBtn").onclick = ()=>{
       const current = document.documentElement.getAttribute("data-theme");
       setTheme(current === "dark" ? "light" : "dark");
+    };
+
+    /* Search mode toggle */
+    function updateSearchModeBtn(){
+      $("searchModeBtn").textContent = searchModeAll ? "Search: All Sets" : "Search: Active Set";
+    }
+
+    $("searchModeBtn").onclick = ()=>{
+      searchModeAll = !searchModeAll;
+      updateSearchModeBtn();
+      renderQuestions();
     };
 
     $("clearBtn").onclick = ()=>{
@@ -1112,7 +1233,9 @@ print("Program 2 completed ->", summary_file)
 
     searchInput.addEventListener("input", renderQuestions);
 
+    renderChips();
     renderSets();
+    updateSearchModeBtn();
     renderQuestions();
   </script>
 </body>
