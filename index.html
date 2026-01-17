@@ -362,7 +362,7 @@
       right: 14px;
       bottom: 14px;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border:  1px solid var(--border);
       border-radius: 10px;
       padding: 9px 12px;
       font-size: 13px;
@@ -541,10 +541,10 @@ print("Product with highest total sales (1-based):", highest_product_index + 1)
         ]
       },
 
-      /* ✅ SET-2 ADDED COMPLETELY (PREDICTED) */
+      /* ✅ SET-2 MEGA (MOST PROBABLE QUESTIONS) */
       {
         set: "SET-2",
-        desc: "Predicted Set (Probable Q1-Q3)",
+        desc: "MEGA Predicted Set (Most Probable Questions)",
         questions: [
           {
             title: `Q1: (Probable) Tuples + Sets
@@ -618,17 +618,136 @@ print("(c) Sorted by frequency (desc):", sorted_items)
           },
 
           {
-            title: `Q3: (Probable) Functions + Recursion / Loops
-(a) Write a function to check whether a number is palindrome or not.
-(b) Write a function to generate Fibonacci series up to n terms using loop.
-(c) Write a program to find sum of digits of a number using recursion.`,
+            title: `Q3: (Probable) String Programs
+Given:
+s = "Python for Computer Science and Data Science"
+(a) Count vowels and consonants (ignore spaces)
+(b) Count words
+(c) Reverse each word in the sentence
+(d) Replace "Science" with "Engineering"`,
             options: [],
             code: `# =========================
 # SET-2 : Q3 (PREDICTED)
 # =========================
+s = "Python for Computer Science and Data Science"
 
-# (a) Palindrome check
-def is_palindrome_number(n):
+vowels = "aeiouAEIOU"
+vowel_count = 0
+cons_count = 0
+
+for ch in s:
+    if ch == " ":
+        continue
+    if ch.isalpha():
+        if ch in vowels:
+            vowel_count += 1
+        else:
+            cons_count += 1
+
+print("(a) Vowels:", vowel_count)
+print("(a) Consonants:", cons_count)
+
+words = s.split()
+print("(b) Word count:", len(words))
+
+rev_words = []
+for w in words:
+    rev_words.append(w[::-1])
+print("(c) Reverse each word:", " ".join(rev_words))
+
+replaced = s.replace("Science", "Engineering")
+print("(d) After replace:", replaced)
+`
+          },
+
+          {
+            title: `Q4: (Probable) Lists (Second largest + Kth largest)
+Given a list of integers:
+nums = [12, 45, 7, 45, 23, 89, 12, 90]
+(a) Remove duplicates while preserving order
+(b) Find the second largest element without using sort() or max()
+(c) Find the K-th largest (k=3) without sorting`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q4 (PREDICTED)
+# =========================
+
+nums = [12, 45, 7, 45, 23, 89, 12, 90]
+
+# (a) Remove duplicates (order preserved)
+seen = set()
+unique = []
+for x in nums:
+    if x not in seen:
+        unique.append(x)
+        seen.add(x)
+print("(a) Unique list:", unique)
+
+# (b) Second largest without sort/max
+first = None
+second = None
+for x in unique:
+    if first is None or x > first:
+        second = first
+        first = x
+    elif x != first and (second is None or x > second):
+        second = x
+print("(b) Second largest:", second)
+
+# (c) K-th largest (k=3) without sorting
+k = 3
+temp = unique[:]  # copy
+kth = None
+for _ in range(k):
+    mx = temp[0]
+    for v in temp:
+        if v > mx:
+            mx = v
+    kth = mx
+    temp.remove(mx)
+print("(c) 3rd largest:", kth)
+`
+          },
+
+          {
+            title: `Q5: (Probable) Prime Numbers in Range + Count
+(a) Print all prime numbers between 1 and 50
+(b) Count how many primes are in the range`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q5 (PREDICTED)
+# =========================
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 1
+    return True
+
+primes = []
+for x in range(1, 51):
+    if is_prime(x):
+        primes.append(x)
+
+print("(a) Primes between 1 and 50:", primes)
+print("(b) Prime count:", len(primes))
+`
+          },
+
+          {
+            title: `Q6: (Probable) Palindrome / Armstrong Check (Functions)
+(a) Check whether a number is Palindrome
+(b) Check whether a number is Armstrong (3-digit example)`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q6 (PREDICTED)
+# =========================
+
+def is_palindrome(n):
     temp = n
     rev = 0
     while temp > 0:
@@ -636,31 +755,148 @@ def is_palindrome_number(n):
         temp //= 10
     return rev == n
 
-num = 121
-print("(a) Palindrome check:", num, "->", "Palindrome" if is_palindrome_number(num) else "Not Palindrome")
-print()
+def is_armstrong_3digit(n):
+    temp = n
+    s = 0
+    while temp > 0:
+        d = temp % 10
+        s += d ** 3
+        temp //= 10
+    return s == n
 
-# (b) Fibonacci series using loop
-def fibonacci_terms(n):
-    a, b = 0, 1
-    series = []
-    for _ in range(n):
-        series.append(a)
-        a, b = b, a + b
-    return series
+num1 = 1221
+num2 = 153
 
-n_terms = 8
-print("(b) Fibonacci series:", fibonacci_terms(n_terms))
-print()
+print("(a) Palindrome:", num1, "->", is_palindrome(num1))
+print("(b) Armstrong:", num2, "->", is_armstrong_3digit(num2))
+`
+          },
 
-# (c) Sum of digits using recursion
+          {
+            title: `Q7: (Probable) Recursion Programs
+(a) Find factorial of a number using recursion
+(b) Find sum of digits using recursion
+(c) Find GCD of two numbers using recursion`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q7 (PREDICTED)
+# =========================
+
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
+
 def sum_digits(n):
     if n == 0:
         return 0
     return (n % 10) + sum_digits(n // 10)
 
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+n = 6
 x = 9876
-print("(c) Sum of digits:", x, "->", sum_digits(x))
+a, b = 36, 60
+
+print("(a) Factorial of", n, "=", factorial(n))
+print("(b) Sum of digits of", x, "=", sum_digits(x))
+print("(c) GCD of", a, "and", b, "=", gcd(a, b))
+`
+          },
+
+          {
+            title: `Q8: (Probable) Pattern Printing (Nested Loops)
+(a) Print a right triangle star pattern for n=5
+(b) Print number pattern:
+1
+12
+123
+1234
+12345`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q8 (PREDICTED)
+# =========================
+
+n = 5
+
+print("(a) Star pattern:")
+for i in range(1, n + 1):
+    print("*" * i)
+
+print()
+print("(b) Number pattern:")
+for i in range(1, n + 1):
+    line = ""
+    for j in range(1, i + 1):
+        line += str(j)
+    print(line)
+`
+          },
+
+          {
+            title: `Q9: (Probable) Exception Handling
+Write a program to take two numbers as input and perform division.
+Handle:
+(a) ZeroDivisionError
+(b) ValueError
+Finally print "Done"`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q9 (PREDICTED)
+# =========================
+
+try:
+    a = float(input("Enter a: "))
+    b = float(input("Enter b: "))
+    print("Result:", a / b)
+
+except ZeroDivisionError:
+    print("Error: Division by zero!")
+
+except ValueError:
+    print("Error: Invalid input! Enter numbers only.")
+
+finally:
+    print("Done")
+`
+          },
+
+          {
+            title: `Q10: (Probable) File Handling (Basic)
+(a) Write student names into a file
+(b) Read the file and display contents
+(c) Count number of lines in file`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q10 (PREDICTED)
+# =========================
+
+fname = "students_demo.txt"
+
+# (a) Write
+students = ["Amit", "Riya", "John", "Neha"]
+with open(fname, "w") as f:
+    for s in students:
+        f.write(s + "\\n")
+
+print("(a) Written to file:", fname)
+
+# (b) Read
+print("(b) File contents:")
+with open(fname, "r") as f:
+    data = f.read()
+print(data)
+
+# (c) Count lines
+count = 0
+with open(fname, "r") as f:
+    for _ in f:
+        count += 1
+print("(c) Total lines:", count)
 `
           }
         ]
@@ -1165,7 +1401,7 @@ print("Program 2 completed ->", summary_file)
       {label:"Exception", value:"exception"},
       {label:"Perfect", value:"perfect"},
       {label:"Leap", value:"leap"},
-      {label:"Set-2 Pred", value:"SET-2"}
+      {label:"Set-2 Mega", value:"SET-2"}
     ];
 
     const $ = (id) => document.getElementById(id);
@@ -1191,7 +1427,7 @@ print("Program 2 completed ->", summary_file)
     }
 
     function cleanCode(code){
-      const lines = code.split("\\n");
+      const lines = code.split("\n");
       const filtered = lines.filter(line => {
         const t = line.trim();
         if (t.startsWith("# Sample Output")) return false;
@@ -1199,7 +1435,7 @@ print("Program 2 completed ->", summary_file)
         if (t.startsWith("# Example Output")) return false;
         return true;
       });
-      return filtered.join("\\n").trim() + "\\n";
+      return filtered.join("\n").trim() + "\n";
     }
 
     function renderTopPills(){
@@ -1361,22 +1597,22 @@ print("Program 2 completed ->", summary_file)
     searchInput.addEventListener("input", renderQuestions);
 
     function buildExportText(){
-      let out = "PFCD Lab Exam Portal Export\\n";
-      out += "====================================\\n\\n";
+      let out = "PFCD Lab Exam Portal Export\n";
+      out += "====================================\n\n";
       DATA.forEach(setObj=>{
-        out += setObj.set + " - " + setObj.desc + "\\n";
-        out += "------------------------------------\\n\\n";
+        out += setObj.set + " - " + setObj.desc + "\n";
+        out += "------------------------------------\n\n";
         setObj.questions.forEach((q, i)=>{
-          out += `${setObj.set} Q${i+1}\\n`;
-          out += q.title + "\\n\\n";
+          out += `${setObj.set} Q${i+1}\n`;
+          out += q.title + "\n\n";
           if(q.options && q.options.length){
-            out += "Options:\\n";
-            q.options.forEach(op => out += " - " + op + "\\n");
-            out += "\\n";
+            out += "Options:\n";
+            q.options.forEach(op => out += " - " + op + "\n");
+            out += "\n";
           }
-          out += "CODE:\\n";
-          out += q.code + "\\n";
-          out += "====================================\\n\\n";
+          out += "CODE:\n";
+          out += q.code + "\n";
+          out += "====================================\n\n";
         });
       });
       return out;
