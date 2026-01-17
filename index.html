@@ -1,330 +1,392 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PFCD Lab Exam Portal</title>
 
   <style>
+    /* =======================
+       Minimal Theme System
+    ======================== */
     :root{
-      --bg:#0b0d12;
-      --panel:#101525;
-      --panel2:#0e1322;
-      --card:#151c2f;
-      --text:#eaf0ff;
-      --muted:#9aa7c7;
-      --accent:#7c5cff;
-      --accent2:#00d4ff;
-      --danger:#ff4d6d;
-      --ok:#22c55e;
-      --border:rgba(255,255,255,.10);
-      --shadow: 0 12px 30px rgba(0,0,0,.35);
-      --radius:18px;
-      --radius2:26px;
+      --bg: #0f1115;
+      --surface: #151923;
+      --card: #1b2130;
+      --text: #e8eefc;
+      --muted: #aab4cf;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 10px 25px rgba(0,0,0,.25);
+
+      --primary: #4f46e5; /* Indigo */
+      --primarySoft: rgba(79,70,229,.12);
+
+      --radius: 16px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
 
-    *{box-sizing:border-box}
+    /* Light theme overrides */
+    html[data-theme="light"]{
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --card: #ffffff;
+      --text: #0d1220;
+      --muted: #4b5563;
+      --border: rgba(0,0,0,.10);
+      --shadow: 0 10px 25px rgba(0,0,0,.08);
+
+      --primary: #2563eb;
+      --primarySoft: rgba(37,99,235,.12);
+    }
+
+    *{ box-sizing:border-box; }
     body{
       margin:0;
-      font-family:var(--sans);
-      background:
-        radial-gradient(1200px 600px at 20% 0%, rgba(124,92,255,.20), transparent 60%),
-        radial-gradient(900px 500px at 80% 20%, rgba(0,212,255,.15), transparent 55%),
-        radial-gradient(900px 500px at 40% 90%, rgba(34,197,94,.10), transparent 60%),
-        var(--bg);
-      color:var(--text);
-      min-height:100vh;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* =======================
+       Layout
+    ======================== */
+    .container{
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px;
     }
 
     header{
-      position:sticky;
+      position: sticky;
       top:0;
       z-index:50;
-      backdrop-filter: blur(12px);
-      background: rgba(11,13,18,.65);
-      border-bottom:1px solid var(--border);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
     }
-    .wrap{max-width:1100px;margin:0 auto;padding:18px 18px;}
-    .topbar{
+
+    .top{
       display:flex;
-      gap:16px;
       align-items:center;
       justify-content:space-between;
+      gap:14px;
       flex-wrap:wrap;
+      padding: 14px 0;
     }
-    .brand{
-      display:flex;align-items:center;gap:10px;
-    }
-    .logo{
-      width:42px;height:42px;border-radius:14px;
-      background: linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow: 0 10px 25px rgba(124,92,255,.25);
-    }
-    .brand h1{
-      font-size:18px;margin:0;
-      letter-spacing:.3px;
-    }
-    .brand p{margin:0;color:var(--muted);font-size:12px}
 
-    .searchRow{
+    .brand{
       display:flex;
-      gap:10px;
-      align-items:center;
-      flex:1;
-      justify-content:flex-end;
-      min-width:260px;
+      flex-direction:column;
+      gap:4px;
+      min-width: 220px;
     }
-    .search{
-      width:min(520px,100%);
+
+    .brand h1{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+    .brand p{
+      margin:0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .controls{
       display:flex;
       gap:10px;
       align-items:center;
-      background: rgba(16,21,37,.85);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:10px 12px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      flex:1;
+      min-width: 260px;
+    }
+
+    .search{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      min-width: min(520px, 100%);
       box-shadow: var(--shadow);
     }
+
     .search input{
-      width:100%;
-      border:none;
-      outline:none;
-      background:transparent;
-      color:var(--text);
-      font-size:14px;
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
     }
+
     .btn{
-      border:none;
-      cursor:pointer;
-      padding:10px 12px;
-      border-radius:14px;
-      background: rgba(124,92,255,.12);
-      color:var(--text);
-      border:1px solid rgba(124,92,255,.25);
-      transition:.2s ease;
-      font-weight:600;
-      font-size:13px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      transition: .15s ease;
+      box-shadow: none;
     }
-    .btn:hover{transform:translateY(-1px); background: rgba(124,92,255,.18);}
-    .btn.ghost{
-      background: rgba(255,255,255,.06);
-      border:1px solid var(--border);
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(79,70,229,.35);
     }
 
-    main{padding:22px 18px 60px;}
+    .btn.primary{
+      border-color: rgba(79,70,229,.45);
+      background: var(--primarySoft);
+      color: var(--text);
+    }
+
     .grid{
-      max-width:1100px;margin:0 auto;
       display:grid;
-      grid-template-columns: 340px 1fr;
-      gap:18px;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      padding: 18px 0 60px;
     }
 
-    @media (max-width: 980px){
-      .grid{grid-template-columns:1fr}
+    @media (max-width: 960px){
+      .grid{ grid-template-columns: 1fr; }
     }
 
     .panel{
-      background: rgba(16,21,37,.65);
-      border:1px solid var(--border);
-      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
 
-    .panelHeader{
-      padding:16px 16px 12px;
-      border-bottom:1px solid var(--border);
+    .panelHead{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
-    }
-    .panelHeader h2{
-      margin:0;font-size:14px;
-      color:var(--muted);
-      letter-spacing:.4px;
-      text-transform:uppercase;
-    }
-    .badge{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .sets{
+    .panelHead h2{
+      margin:0;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    .badge{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: transparent;
+    }
+
+    /* =======================
+       Sets list
+    ======================== */
+    .setList{
+      padding: 12px;
       display:flex;
       flex-direction:column;
-      padding:12px;
       gap:10px;
     }
 
     .setBtn{
+      width: 100%;
       text-align:left;
-      width:100%;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background: rgba(21,28,47,.55);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 12px;
       cursor:pointer;
-      transition:.2s ease;
+      transition:.15s ease;
     }
-    .setBtn:hover{transform:translateY(-1px)}
+    .setBtn:hover{
+      border-color: rgba(79,70,229,.35);
+    }
     .setBtn.active{
-      border-color: rgba(124,92,255,.55);
-      background: rgba(124,92,255,.10);
-      box-shadow: 0 0 0 3px rgba(124,92,255,.10) inset;
+      border-color: rgba(79,70,229,.55);
+      background: var(--primarySoft);
     }
-    .setTitle{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      font-weight:800;
-      letter-spacing:.2px;
+
+    .setTitleRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
     }
-    .setMeta{
+    .setTitleRow b{
+      font-size: 14px;
+    }
+    .setDesc{
       margin-top:6px;
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.3;
+      font-size: 12px;
+      color: var(--muted);
+      line-height:1.35;
     }
 
+    /* =======================
+       Questions
+    ======================== */
     .content{
-      padding:16px;
+      padding: 14px;
     }
 
-    .card{
-      border:1px solid var(--border);
-      background: rgba(21,28,47,.45);
-      border-radius: var(--radius2);
-      padding:14px;
-      box-shadow: var(--shadow);
-      margin-bottom:14px;
+    .qCard{
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 14px;
     }
 
-    .qHead{
+    html[data-theme="light"] .qCard{
+      background: #fafafa;
+    }
+
+    .qTop{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap:12px;
-      margin-bottom:10px;
+      gap: 12px;
+      margin-bottom: 10px;
     }
-    .qHead h3{
+    .qTop h3{
       margin:0;
-      font-size:15px;
-      line-height:1.35;
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 800;
     }
+
     .pill{
-      font-size:11px;
-      padding:6px 10px;
-      border-radius:999px;
-      background: rgba(0,212,255,.10);
-      border:1px solid rgba(0,212,255,.25);
-      color: var(--text);
-      white-space:nowrap;
+      font-size: 11px;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      white-space: nowrap;
     }
 
     .opts{
-      margin:10px 0 8px;
-      padding:10px 12px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
+      margin: 10px 0;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px dashed var(--border);
       color: var(--muted);
-      font-size:13px;
+      background: transparent;
+      font-size: 13px;
+      line-height:1.5;
     }
-    .opts b{color:var(--text)}
 
     pre{
       margin:0;
-      white-space:pre-wrap;
-      word-wrap:break-word;
-      font-family: var(--mono);
-      font-size:12.5px;
-      line-height:1.35;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.35);
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.25);
+      border-radius: 14px;
+      padding: 12px;
       overflow:auto;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.35;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
 
-    .actions{
+    html[data-theme="light"] pre{
+      background: #ffffff;
+    }
+
+    .qActions{
       display:flex;
       gap:10px;
-      margin-top:10px;
+      margin-top: 10px;
       flex-wrap:wrap;
     }
+
     .hint{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:8px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
     }
 
+    /* =======================
+       Toast
+    ======================== */
     .toast{
-      position:fixed;
-      right:16px;
-      bottom:16px;
-      background: rgba(16,21,37,.95);
-      border:1px solid var(--border);
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       box-shadow: var(--shadow);
-      border-radius:16px;
-      padding:12px 14px;
-      font-size:13px;
-      color:var(--text);
+      padding: 10px 12px;
+      font-size: 13px;
       display:none;
     }
-    .toast.show{display:block;}
+    .toast.show{ display:block; }
+
+    /* Mobile refinements */
+    @media (max-width: 520px){
+      .search{ min-width: 100%; }
+      .btn{ width: 100%; }
+      .controls{ width: 100%; }
+      .qTop{ flex-direction: column; }
+      .pill{ align-self:flex-start; }
+    }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="wrap">
-      <div class="topbar">
+    <div class="container">
+      <div class="top">
         <div class="brand">
-          <div class="logo"></div>
-          <div>
-            <h1>PFCD Lab Exam Portal</h1>
-            <p>Set-wise solutions • Full questions • Copy-ready code</p>
-          </div>
+          <h1>PFCD Lab Exam Portal</h1>
+          <p>Set-wise questions • Full code • Copy fast during exam</p>
         </div>
 
-        <div class="searchRow">
+        <div class="controls">
           <div class="search">
-            <input id="searchInput" placeholder="Search: duplicate / numpy / prime / file / exception / dictionary..." />
-            <button class="btn ghost" id="clearBtn">Clear</button>
+            <input id="searchInput" placeholder="Search: numpy / duplicate / prime / file / exception / dict ..." />
+            <button class="btn" id="clearBtn">Clear</button>
           </div>
-          <button class="btn" id="expandBtn">Expand All</button>
-          <button class="btn ghost" id="collapseBtn">Collapse</button>
+
+          <button class="btn primary" id="themeBtn">Toggle Theme</button>
         </div>
       </div>
     </div>
   </header>
 
-  <main>
+  <main class="container">
     <div class="grid">
       <!-- LEFT -->
       <section class="panel">
-        <div class="panelHeader">
+        <div class="panelHead">
           <h2>Sets</h2>
           <span class="badge" id="countBadge">0 Questions</span>
         </div>
-        <div class="sets" id="setList"></div>
-        <div class="content">
-          <div class="hint">
-            ✅ Tip: During exam press <b>Ctrl+F</b> / <b>Cmd+F</b> and search keywords.
-          </div>
+        <div class="setList" id="setList"></div>
+        <div class="hint">
+          ✅ Tip: Ctrl+F / Cmd+F works too. This portal is just faster to search & copy.
         </div>
       </section>
 
       <!-- RIGHT -->
       <section class="panel">
-        <div class="panelHeader">
-          <h2 id="activeSetTitle">Set</h2>
-          <span class="badge" id="activeBadge">Ready</span>
+        <div class="panelHead">
+          <h2 id="activeSetTitle">SET</h2>
+          <span class="badge">Ready</span>
         </div>
         <div class="content" id="questionContainer"></div>
       </section>
@@ -334,9 +396,9 @@
   <div class="toast" id="toast">Copied ✅</div>
 
   <script>
-    // ✅ Data: Set-wise questions + solutions
-    // NOTE: You can edit code text inside each question anytime.
-
+    /* =======================
+       DATA (Set-wise)
+    ======================== */
     const DATA = [
       {
         set: "SET-1",
@@ -444,24 +506,21 @@ print("Product with highest total sales (1-based):", highest_product_index + 1)
 # =========================
 quote = "In the middle of difficulty lies opportunity"
 
-# (a) Word count
 words = quote.split()
 print("(a) Word count:", len(words))
 
-# (b) Remove vowels
 vowels = "aeiouAEIOU"
 no_vowels = "".join(ch for ch in quote if ch not in vowels)
 print("(b) Without vowels:", no_vowels)
 
-# (c) Replace words
 replaced = quote.replace("difficulty", "challenge").replace("opportunity", "possibility")
 print("(c) Replaced:", replaced)
 
-# (d) Sort words by length
 sorted_words = sorted(words, key=len)
 print("(d) Words sorted by length:", sorted_words)
 `
           },
+
           {
             title: `Q2: Given two lists:
 StudentIDs = [201, 202, 203, 204, 205, 206, 207]
@@ -476,14 +535,12 @@ Scores     = [85, 92, 78, 64, 88, 91, 73]
 StudentIDs = [201, 202, 203, 204, 205, 206, 207]
 Scores     = [85, 92, 78, 64, 88, 91, 73]
 
-# (a)
 eligible = []
 for i in range(len(Scores)):
     if Scores[i] >= 75:
         eligible.append(StudentIDs[i])
 print("(a) IDs scoring >= 75:", eligible)
 
-# (b)
 total = 0
 count = 0
 for s in Scores:
@@ -492,22 +549,21 @@ for s in Scores:
 avg = total / count
 print("(b) Average score:", avg)
 
-# (c)
 min_score = Scores[0]
 min_id = StudentIDs[0]
 for i in range(1, len(Scores)):
     if Scores[i] < min_score:
         min_score = Scores[i]
         min_id = StudentIDs[i]
-print("(c) Lowest score StudentID:", min_id, "Score:", min_score)
+print("(c) Lowest StudentID:", min_id, "Score:", min_score)
 `
-          },
+          }
         ]
       },
 
       {
         set: "SET-4",
-        desc: "Sentence + Dict",
+        desc: "Sentence + Dictionary",
         questions: [
           {
             title: `Q1: Given the sentence:
@@ -522,7 +578,6 @@ sentence = "The quick brown fox jumps over the lazy dog"
 # =========================
 sentence = "The quick brown fox jumps over the lazy dog"
 
-# (a)
 seen = set()
 unique_chars = []
 for ch in sentence:
@@ -531,7 +586,6 @@ for ch in sentence:
         seen.add(ch)
 print("(a) Without duplicate characters:", "".join(unique_chars))
 
-# (b)
 freq = {}
 for ch in sentence.lower():
     if ch == " ":
@@ -539,7 +593,6 @@ for ch in sentence.lower():
     freq[ch] = freq.get(ch, 0) + 1
 print("(b) Frequency dict:", freq)
 
-# (c)
 words = sentence.split()
 longest = words[0]
 for w in words[1:]:
@@ -553,10 +606,10 @@ for ch in longest:
         vowel_count += 1
 print("(c) Longest word:", longest, "| Vowels:", vowel_count)
 
-# (d)
 print("(d) Reverse word order:", " ".join(words[::-1]))
 `
           },
+
           {
             title: `Q2: Given:
 ProductIDs = [101, 102, 103, 104, 105, 106, 107]
@@ -571,13 +624,11 @@ Prices     = [250, 400, 150, 300, 450, 200, 350]
 ProductIDs = [101, 102, 103, 104, 105, 106, 107]
 Prices     = [250, 400, 150, 300, 450, 200, 350]
 
-# (a)
 price_map = {}
 for i in range(len(ProductIDs)):
     price_map[ProductIDs[i]] = Prices[i]
 print("(a) ProductID -> Price:", price_map)
 
-# (b)
 max_price = Prices[0]
 max_id = ProductIDs[0]
 for i in range(1, len(Prices)):
@@ -586,7 +637,6 @@ for i in range(1, len(Prices)):
         max_id = ProductIDs[i]
 print("(b) Highest price ProductID:", max_id, "Price:", max_price)
 
-# (c)
 total = 0
 for p in Prices:
     total += p
@@ -638,7 +688,7 @@ print("Cubes:", cubes)
 print("Sum of cubes:", sum_cubes)
 print()
 
-# (B) Prime
+# (B)
 n = 29
 if n <= 1:
     print("Q1(B) Output")
@@ -655,12 +705,13 @@ else:
     print(n, "is prime" if is_prime else "is NOT prime")
 `
           },
+
           {
             title: `Q2:
 (a) Write a program to read First Name and Last Name and print the message:
 "Hello <First Name> <Last Name> Welcome to python programming."
 (b) Write a program to input a number of seconds and convert into Days, Hours, Minutes and Seconds
-(c) Write a program to implement the given dictionary:
+(c) Write a program to implement the dictionary:
 WeatherConditions = {"a":"Sunny","b":"Cloudy","c":"Rainy","d":"Snowy","e":"Foggy"}
 Give the user choices and print the corresponding weather condition.`,
             options: [
@@ -690,7 +741,7 @@ rem = rem % 3600
 minutes = rem // 60
 seconds = rem % 60
 
-print("(b) Time Conversion:")
+print("(b) Conversion:")
 print("Input seconds:", total_seconds)
 print("Days:", days)
 print("Hours:", hours)
@@ -701,7 +752,7 @@ print()
 # (c)
 WeatherConditions = {"a":"Sunny","b":"Cloudy","c":"Rainy","d":"Snowy","e":"Foggy"}
 
-print("(c) Weather Menu:")
+print("(c) Options:")
 print("a) Sunny")
 print("b) Cloudy")
 print("c) Rainy")
@@ -710,7 +761,6 @@ print("e) Foggy")
 
 choice = "d"
 if choice in WeatherConditions:
-    print("Selected:", choice)
     print("Current weather condition is:", WeatherConditions[choice])
 else:
     print("Invalid choice")
@@ -746,14 +796,13 @@ def format_name(first, middle, last):
     first = first.strip().capitalize()
     middle = middle.strip().capitalize()
     last = last.strip().capitalize()
-
     if middle == "":
         return f"{last}, {first}"
     return f"{last}, {first} {middle}"
 
 print("Q1(A) Output")
-print("Example:", format_name("abc", "", "xyz"))
-print("Example:", format_name("abc", "mno", "xyz"))
+print(format_name("abc", "", "xyz"))
+print(format_name("abc", "mno", "xyz"))
 print()
 
 # (B)
@@ -765,7 +814,7 @@ Designation = {
     "e":"Jr. Lab Technician"
 }
 
-print("Q1(B) Menu:")
+print("Q1(B) Options:")
 print("a) Professor")
 print("b) Associate Professor")
 print("c) Assistant Professor")
@@ -779,6 +828,7 @@ else:
     print("Invalid choice")
 `
           },
+
           {
             title: `Q2:
 (a) Write a function to check whether a given number is a Perfect Number or not.
@@ -803,17 +853,15 @@ def is_perfect(n):
     return s == n
 
 num = 28
-print("(a) Perfect Number Check:")
-print(num, "is Perfect" if is_perfect(num) else "is NOT Perfect")
+print("(a) Perfect check:", "Perfect" if is_perfect(num) else "Not Perfect")
 print()
 
 # (b) Leap Year
 year = 2024
-print("(b) Leap Year Check:")
 if (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0):
-    print(year, "is a Leap Year")
+    print("(b) Leap year:", year, "is Leap Year")
 else:
-    print(year, "is NOT a Leap Year")
+    print("(b) Leap year:", year, "is NOT Leap Year")
 `
           }
         ]
@@ -836,6 +884,7 @@ If no exception occurs, print "Program executed successfully"`,
 try:
     a = float(input("Enter first number: "))
     b = float(input("Enter second number: "))
+
     result = a / b
     print("Result:", result)
     print("Program executed successfully")
@@ -847,6 +896,7 @@ except ValueError:
     print("Error: Invalid input! Please enter numeric values.")
 `
           },
+
           {
             title: `Q2:
 Program 1:
@@ -868,7 +918,6 @@ input_file = "students_input.txt"
 output_file = "students_output.txt"
 summary_file = "summary.txt"
 
-# Sample input (for demo)
 sample_data = [
     "Amit 80 75 90 85 70",
     "Riya 55 60 58 62 59",
@@ -876,12 +925,11 @@ sample_data = [
     "Neha 60 60 60 60 60"
 ]
 
-# Create input file
 with open(input_file, "w") as f:
     for line in sample_data:
         f.write(line + "\\n")
 
-# -------- Program 1 --------
+# Program 1
 with open(input_file, "r") as fin, open(output_file, "w") as fout:
     for line in fin:
         parts = line.split()
@@ -899,7 +947,7 @@ with open(input_file, "r") as fin, open(output_file, "w") as fout:
 
 print("Program 1 completed ->", output_file)
 
-# -------- Program 2 --------
+# Program 2
 percentages = []
 with open(output_file, "r") as f:
     for line in f:
@@ -909,12 +957,10 @@ with open(output_file, "r") as f:
 if len(percentages) > 0:
     highest = percentages[0]
     sum_p = 0
-
     for p in percentages:
         sum_p += p
         if p > highest:
             highest = p
-
     avg_p = sum_p / len(percentages)
 else:
     highest = 0
@@ -931,17 +977,19 @@ print("Program 2 completed ->", summary_file)
       }
     ];
 
-    // UI rendering
-    const setList = document.getElementById("setList");
-    const container = document.getElementById("questionContainer");
-    const searchInput = document.getElementById("searchInput");
-    const countBadge = document.getElementById("countBadge");
-    const activeSetTitle = document.getElementById("activeSetTitle");
+    /* =======================
+       Helpers
+    ======================== */
+    const $ = (id) => document.getElementById(id);
 
-    const toast = document.getElementById("toast");
+    const setList = $("setList");
+    const questionContainer = $("questionContainer");
+    const activeSetTitle = $("activeSetTitle");
+    const countBadge = $("countBadge");
+    const searchInput = $("searchInput");
+    const toast = $("toast");
 
     let activeSet = DATA[0].set;
-    let expandAll = true;
 
     function showToast(msg){
       toast.textContent = msg;
@@ -957,87 +1005,109 @@ print("Program 2 completed ->", summary_file)
       setList.innerHTML = "";
       DATA.forEach((s)=>{
         const btn = document.createElement("button");
-        btn.className = "setBtn" + (s.set===activeSet ? " active" : "");
-        btn.onclick = ()=>{ activeSet = s.set; renderSets(); renderQuestions(); };
+        btn.className = "setBtn" + (s.set === activeSet ? " active" : "");
+        btn.onclick = ()=>{
+          activeSet = s.set;
+          renderSets();
+          renderQuestions();
+        };
 
         btn.innerHTML = `
-          <div class="setTitle">
-            <span>${s.set}</span>
+          <div class="setTitleRow">
+            <b>${s.set}</b>
             <span class="badge">${s.questions.length} Q</span>
           </div>
-          <div class="setMeta">${s.desc}</div>
+          <div class="setDesc">${s.desc}</div>
         `;
+
         setList.appendChild(btn);
       });
     }
 
     function renderQuestions(){
-      const q = DATA.find(x=>x.set===activeSet);
-      activeSetTitle.textContent = q.set;
-      countBadge.textContent = q.questions.length + " Questions";
+      const setObj = DATA.find(x=>x.set === activeSet);
+      activeSetTitle.textContent = setObj.set;
+      countBadge.textContent = setObj.questions.length + " Questions";
 
       const query = searchInput.value.trim().toLowerCase();
 
-      container.innerHTML = "";
-      q.questions.forEach((item, idx)=>{
-        const fullText = (item.title + " " + item.code).toLowerCase();
-        if(query && !fullText.includes(query)) return;
+      questionContainer.innerHTML = "";
+      setObj.questions.forEach((item, idx)=>{
+        const searchable = (item.title + " " + item.code).toLowerCase();
+        if(query && !searchable.includes(query)) return;
 
         const card = document.createElement("div");
-        card.className = "card";
+        card.className = "qCard";
 
-        const optsHTML = item.options?.length
-          ? `<div class="opts"><b>Options:</b><br>${item.options.map(x=>`• ${x}`).join("<br>")}</div>`
+        const opts = item.options && item.options.length
+          ? `<div class="opts">
+              <b>Options:</b><br>
+              ${item.options.map(o => `• ${escapeHTML(o)}`).join("<br>")}
+            </div>`
           : "";
 
         card.innerHTML = `
-          <div class="qHead">
+          <div class="qTop">
             <h3>${escapeHTML(item.title)}</h3>
             <span class="pill">Q${idx+1}</span>
           </div>
-          ${optsHTML}
+          ${opts}
           <pre id="code-${activeSet}-${idx}">${escapeHTML(item.code)}</pre>
-          <div class="actions">
-            <button class="btn" onclick="copyCode('${activeSet}', ${idx})">Copy Code</button>
+          <div class="qActions">
+            <button class="btn primary" onclick="copyCode('${activeSet}', ${idx})">Copy Code</button>
           </div>
         `;
 
-        container.appendChild(card);
+        questionContainer.appendChild(card);
       });
 
-      if(container.innerHTML.trim()===""){
-        container.innerHTML = `<div class="card">
-          <h3>No matches found.</h3>
-          <div class="hint">Try keywords like: <b>numpy</b>, <b>duplicate</b>, <b>prime</b>, <b>file</b>, <b>exception</b></div>
-        </div>`;
+      if(questionContainer.innerHTML.trim() === ""){
+        questionContainer.innerHTML = `
+          <div class="qCard">
+            <div class="qTop">
+              <h3>No results found</h3>
+              <span class="pill">Search</span>
+            </div>
+            <div class="opts">
+              Try keywords: <b>numpy</b>, <b>duplicate</b>, <b>prime</b>, <b>file</b>, <b>exception</b>, <b>dictionary</b>
+            </div>
+          </div>
+        `;
       }
     }
 
     window.copyCode = function(setName, idx){
-      const pre = document.getElementById(`code-${setName}-${idx}`);
-      const text = pre.innerText;
-      navigator.clipboard.writeText(text).then(()=>{
+      const el = document.getElementById(`code-${setName}-${idx}`);
+      navigator.clipboard.writeText(el.innerText).then(()=>{
         showToast("Copied ✅");
       }).catch(()=>{
         showToast("Copy failed ❌");
       });
     };
 
-    document.getElementById("clearBtn").onclick = ()=>{
+    /* =======================
+       Theme Switcher
+    ======================== */
+    function setTheme(t){
+      document.documentElement.setAttribute("data-theme", t);
+      localStorage.setItem("pfcd_theme", t);
+    }
+
+    const savedTheme = localStorage.getItem("pfcd_theme");
+    if(savedTheme === "light" || savedTheme === "dark"){
+      setTheme(savedTheme);
+    } else {
+      setTheme("dark"); // default
+    }
+
+    $("themeBtn").onclick = ()=>{
+      const current = document.documentElement.getAttribute("data-theme");
+      setTheme(current === "dark" ? "light" : "dark");
+    };
+
+    $("clearBtn").onclick = ()=>{
       searchInput.value = "";
       renderQuestions();
-    };
-
-    document.getElementById("expandBtn").onclick = ()=>{
-      expandAll = true;
-      showToast("Expanded ✅");
-      // (cards already expanded - keeping simple)
-    };
-
-    document.getElementById("collapseBtn").onclick = ()=>{
-      expandAll = false;
-      showToast("Collapsed ✅");
-      // (keeping simple - no collapsible sections needed)
     };
 
     searchInput.addEventListener("input", renderQuestions);
