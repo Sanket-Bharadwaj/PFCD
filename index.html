@@ -47,6 +47,10 @@
       color: var(--text);
     }
 
+    /* ===========================
+       HEADER (Sticky on desktop)
+       NOT sticky on small screens
+    ============================ */
     header{
       position: sticky;
       top:0;
@@ -68,6 +72,7 @@
       padding: 6px 10px;
     }
 
+    /* COMPACT TOP BAR */
     .topbar{
       display:flex;
       align-items:center;
@@ -91,6 +96,7 @@
       letter-spacing:.2px;
     }
 
+    /* Search in center */
     .searchWrap{
       flex: 1;
       min-width: 220px;
@@ -148,6 +154,7 @@
       background: var(--primarySoft);
     }
 
+    /* TOP PILLS BAR */
     .pillRowTop{
       display:flex;
       gap:6px;
@@ -219,6 +226,7 @@
       background: transparent;
     }
 
+    /* LEFT sets scroll */
     .setList{
       padding: 10px;
       display:flex;
@@ -262,6 +270,7 @@
       line-height:1.35;
     }
 
+    /* RIGHT questions scroll */
     #questionContainer{
       padding: 12px;
       max-height: 84vh;
@@ -340,14 +349,6 @@
       flex-wrap:wrap;
     }
 
-    .hint{
-      padding: 9px 12px;
-      font-size: 12px;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      line-height: 1.35;
-    }
-
     .toast{
       position: fixed;
       right: 14px;
@@ -417,10 +418,6 @@
         </div>
 
         <div class="setList" id="setList"></div>
-
-        <div class="hint">
-          ✅ Offline ready • ✅ PDF works offline
-        </div>
       </section>
 
       <section class="panel">
@@ -430,10 +427,6 @@
         </div>
 
         <div id="questionContainer"></div>
-
-        <div class="hint">
-          Copy: <b>Full</b> or <b>Clean</b>
-        </div>
       </section>
     </div>
   </main>
@@ -443,7 +436,7 @@
   <script>
     const DATA = [
 
-      /* ✅ NOTES SECTION ADDED */
+      /* ✅ NOTES SECTION */
       {
         set: "NOTES",
         desc: "Quick Short Notes + Tiny Examples (Revision)",
@@ -756,7 +749,6 @@ print("Col sum:", np.sum(m, axis=0))
         ]
       },
 
-      /* ✅ SET-1 onwards */
       {
         set: "SET-1",
         desc: "Lists + NumPy",
@@ -1194,6 +1186,56 @@ with open(fname, "r") as f:
         count += 1
 print("(c) Total lines:", count)
 `
+          },
+
+          {
+            title: `Q11: (Probable) Course Enrollment Analysis using Dictionary + Sets
+Given the dictionary:
+courses = {
+  "Python": {101, 102, 103, 104},
+  "DataScience": {102, 103, 105},
+  "AI": {101, 103, 106},
+  "ML": {103, 104, 105}
+}
+Write a Python program to:
+1) Count number of courses per student
+2) Students enrolled in more than one course
+3) Student(s) enrolled in maximum courses
+4) Total number of unique students`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q11 (PREDICTED)
+# =========================
+# Course Enrollment Analysis (Dictionary + Sets)
+
+courses = {
+    "Python": {101, 102, 103, 104},
+    "DataScience": {102, 103, 105},
+    "AI": {101, 103, 106},
+    "ML": {103, 104, 105}
+}
+
+# 1. Count number of courses per student
+course_count = {}
+for students in courses.values():
+    for student in students:
+        course_count[student] = course_count.get(student, 0) + 1
+
+# 2. Students enrolled in more than one course
+multiple_courses = {student for student, count in course_count.items() if count > 1}
+
+# 3. Student(s) enrolled in maximum courses
+max_courses = max(course_count.values())
+max_course_students = [student for student, count in course_count.items() if count == max_courses]
+
+# 4. Total number of unique students
+total_students = len(course_count)
+
+print("Students enrolled in more than one course:", multiple_courses)
+print("Course count per student:", course_count)
+print("Student(s) enrolled in maximum courses:", max_course_students)
+print("Total number of unique students:", total_students)
+`
           }
         ]
       },
@@ -1417,7 +1459,7 @@ else:
           {
             title: `Q2:
 (a) Write a program to read First Name and Last Name and print the message:
-"Hello <First Name> <Last Name> Welcome to python programming."
+"Hello <First Name> <First Name> Welcome to python programming."
 (b) Write a program to input a number of seconds and convert into Days, Hours, Minutes and Seconds
 (c) Write a program to implement the dictionary:
 WeatherConditions = {"a":"Sunny","b":"Cloudy","c":"Rainy","d":"Snowy","e":"Foggy"}
@@ -1852,6 +1894,7 @@ print("Program 2 completed ->", summary_file)
       }
     }
 
+    /* ✅ AUTO THEME (system + saved preference) */
     function applyTheme(t){
       document.documentElement.setAttribute("data-theme", t);
       localStorage.setItem("pfcd_theme", t);
