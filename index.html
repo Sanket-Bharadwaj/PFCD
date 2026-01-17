@@ -15,7 +15,6 @@
       --muted: #b8b8b8;
 
       --border: rgba(255,255,255,.12);
-      --shadow: none;
 
       --primary: #e95420; /* Ubuntu orange */
       --primarySoft: rgba(233,84,32,.12);
@@ -35,7 +34,6 @@
       --muted: #4b5563;
 
       --border: rgba(0,0,0,.12);
-      --shadow: none;
 
       --primary: #2563eb;
       --primarySoft: rgba(37,99,235,.10);
@@ -57,56 +55,53 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* MORE COMPACT container */
     .container{
       max-width: 1180px;
       margin: 0 auto;
-      padding: 6px 10px;  /* reduced */
+      padding: 6px 10px;
     }
 
-    /* Compact top bar */
-    .top{
+    /* COMPACT TOP BAR */
+    .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:8px;
+      gap:10px;
       flex-wrap:wrap;
-      padding: 4px 0 6px; /* reduced */
+      padding: 6px 0;
     }
 
-    .brand{
+    .leftTitle{
       display:flex;
       align-items:center;
-      gap:8px;
-      min-width: 140px;
+      gap:10px;
+      min-width: 170px;
     }
 
-    .brand h1{
+    .leftTitle h1{
       margin:0;
-      font-size: 14px; /* smaller */
+      font-size: 14px;
+      font-weight: 900;
       letter-spacing:.2px;
-      font-weight: 800;
     }
 
-    .controls{
+    /* Search moved to center area (compact) */
+    .searchWrap{
+      flex: 1;
+      min-width: 220px;
       display:flex;
-      gap:8px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      flex:1;
-      min-width: 280px;
+      justify-content:center;
     }
 
     .search{
+      width: min(520px, 100%);
       display:flex;
       align-items:center;
       gap:8px;
       border: 1px solid var(--border);
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 7px 10px;       /* reduced */
-      min-width: min(520px, 100%);
+      padding: 7px 10px;
     }
 
     .search input{
@@ -118,14 +113,23 @@
       font-size: 13.5px;
     }
 
+    .rightBtns{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      min-width: 230px;
+    }
+
     .btn{
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--text);
-      padding: 7px 10px;  /* reduced */
+      padding: 7px 10px;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 12.5px;
       transition: .12s ease;
       white-space: nowrap;
@@ -139,23 +143,14 @@
       background: var(--primarySoft);
     }
 
-    .row2{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      width:100%;
-    }
-
-    /* TOP pills row (compact) */
+    /* TOP PILLS BAR */
     .pillRowTop{
       display:flex;
       gap:6px;
       flex-wrap:wrap;
       width:100%;
-      justify-content:flex-end;
-      margin-top: 4px;
+      justify-content:flex-start;
+      padding: 4px 0 6px;
     }
 
     .pillTop{
@@ -166,7 +161,7 @@
       border-radius: 999px;
       cursor:pointer;
       font-size: 11.5px;
-      font-weight: 700;
+      font-weight: 800;
       line-height: 1;
     }
     .pillTop:hover{
@@ -183,6 +178,9 @@
 
     @media (max-width: 960px){
       .grid{ grid-template-columns: 1fr; }
+      .pillRowTop{ justify-content:flex-start; }
+      .searchWrap{ justify-content:stretch; }
+      .search{ width: 100%; }
     }
 
     .panel{
@@ -196,7 +194,7 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 9px 12px; /* reduced */
+      padding: 9px 12px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -238,9 +236,7 @@
       transition:.12s ease;
       color: var(--text);
     }
-    .setBtn:hover{
-      border-color: rgba(233,84,32,.35);
-    }
+    .setBtn:hover{ border-color: rgba(233,84,32,.35); }
     .setBtn.active{
       border-color: rgba(233,84,32,.55);
       background: var(--primarySoft);
@@ -278,9 +274,7 @@
       margin-bottom: 12px;
     }
 
-    html[data-theme="light"] .qCard{
-      background: #fafafa;
-    }
+    html[data-theme="light"] .qCard{ background: #fafafa; }
 
     .qTop{
       display:flex;
@@ -294,7 +288,7 @@
       margin:0;
       font-size: 14.2px;
       line-height: 1.35;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .pill{
@@ -365,19 +359,15 @@
     }
     .toast.show{ display:block; }
 
-    /* Mobile refinements */
     @media (max-width: 520px){
-      .search{ min-width: 100%; }
       .btn{ width: 100%; }
-      .controls{ width: 100%; }
+      .rightBtns{ width: 100%; }
       .qTop{ flex-direction: column; }
       .pill{ align-self:flex-start; }
       #questionContainer{ max-height: unset; }
       .setList{ max-height: unset; }
-      .pillRowTop{ justify-content:flex-start; }
     }
 
-    /* Print mode (PDF backup) */
     @media print{
       header, .panel:first-child{ display:none; }
       body{ background:white; color:black; }
@@ -390,34 +380,36 @@
 <body>
   <header>
     <div class="container">
-      <div class="top">
-        <div class="brand">
+
+      <!-- COMPACT TOPBAR -->
+      <div class="topbar">
+        <div class="leftTitle">
           <h1>PFCD Portal</h1>
         </div>
 
-        <div class="controls">
+        <div class="searchWrap">
           <div class="search">
-            <input id="searchInput" placeholder="Search: numpy / duplicate / prime / file / exception / dict ..." />
+            <input id="searchInput" placeholder="Search: numpy / prime / file / dict / lambda ..." />
             <button class="btn" id="clearBtn">Clear</button>
           </div>
+        </div>
 
-          <div class="row2">
-            <button class="btn primary" id="themeBtn">Theme</button>
-            <button class="btn" id="searchModeBtn">Search: Active Set</button>
-            <button class="btn" id="downloadTxtBtn">.txt</button>
-            <button class="btn" id="downloadPdfBtn">PDF</button>
-          </div>
-
-          <!-- TOP PILLS -->
-          <div class="pillRowTop" id="pillRowTop"></div>
+        <div class="rightBtns">
+          <button class="btn primary" id="themeBtn">Theme</button>
+          <button class="btn" id="searchModeBtn">Active</button>
+          <button class="btn" id="downloadTxtBtn">.txt</button>
+          <button class="btn" id="downloadPdfBtn">PDF</button>
         </div>
       </div>
+
+      <!-- TOP PILLS -->
+      <div class="pillRowTop" id="pillRowTop"></div>
+
     </div>
   </header>
 
   <main class="container">
     <div class="grid">
-      <!-- LEFT -->
       <section class="panel">
         <div class="panelHead">
           <h2>Sets</h2>
@@ -427,11 +419,10 @@
         <div class="setList" id="setList"></div>
 
         <div class="hint">
-          ✅ Offline ready • ✅ PDF button works offline
+          ✅ Offline ready • ✅ PDF works offline
         </div>
       </section>
 
-      <!-- RIGHT -->
       <section class="panel">
         <div class="panelHead">
           <h2 id="activeSetTitle">SET</h2>
@@ -441,7 +432,7 @@
         <div id="questionContainer"></div>
 
         <div class="hint">
-          Copy: <b>Full</b> = full code • <b>Clean</b> = removes sample-output comments
+          Copy: <b>Full</b> or <b>Clean</b>
         </div>
       </section>
     </div>
@@ -1194,25 +1185,31 @@ print("Program 2 completed ->", summary_file)
       }
     }
 
-    function setTheme(t){
+    /* ✅ AUTO THEME (system + saved preference) */
+    function applyTheme(t){
       document.documentElement.setAttribute("data-theme", t);
       localStorage.setItem("pfcd_theme", t);
     }
 
-    const savedTheme = localStorage.getItem("pfcd_theme");
-    if(savedTheme === "light" || savedTheme === "dark"){
-      setTheme(savedTheme);
-    } else {
-      setTheme("dark");
+    function autoTheme(){
+      const saved = localStorage.getItem("pfcd_theme");
+      if(saved === "light" || saved === "dark"){
+        applyTheme(saved);
+        return;
+      }
+      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      applyTheme(systemDark ? "dark" : "light");
     }
+
+    autoTheme();
 
     $("themeBtn").onclick = ()=>{
       const current = document.documentElement.getAttribute("data-theme");
-      setTheme(current === "dark" ? "light" : "dark");
+      applyTheme(current === "dark" ? "light" : "dark");
     };
 
     function updateSearchModeBtn(){
-      $("searchModeBtn").textContent = searchModeAll ? "Search: All Sets" : "Search: Active Set";
+      $("searchModeBtn").textContent = searchModeAll ? "All" : "Active";
     }
 
     $("searchModeBtn").onclick = ()=>{
@@ -1263,8 +1260,7 @@ print("Program 2 completed ->", summary_file)
     }
 
     $("downloadTxtBtn").onclick = ()=>{
-      const text = buildExportText();
-      downloadTextFile("PFCD_Setwise_Solutions.txt", text);
+      downloadTextFile("PFCD_Setwise_Solutions.txt", buildExportText());
     };
 
     $("downloadPdfBtn").onclick = ()=>{
