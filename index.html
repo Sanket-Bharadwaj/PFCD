@@ -6,10 +6,6 @@
   <title>PFCD Lab Exam Portal</title>
 
   <style>
-    /* =======================
-       Ubuntu/Jupyter-like Theme (Offline)
-    ======================== */
-
     :root{
       --bg: #0f0f0f;
       --surface: #141414;
@@ -61,34 +57,40 @@
       border-bottom: 1px solid var(--border);
     }
 
+    /* MORE COMPACT container */
     .container{
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 10px;
+      padding: 6px 10px;  /* reduced */
     }
 
-    /* Compact top bar to maximize code canvas */
+    /* Compact top bar */
     .top{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
+      gap:8px;
       flex-wrap:wrap;
-      padding: 6px 0 8px;
+      padding: 4px 0 6px; /* reduced */
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-width: 140px;
     }
 
     .brand h1{
       margin:0;
-      font-size: 15px;
+      font-size: 14px; /* smaller */
       letter-spacing:.2px;
-    }
-    .brand p{
-      display:none; /* removed to save space */
+      font-weight: 800;
     }
 
     .controls{
       display:flex;
-      gap:10px;
+      gap:8px;
       align-items:center;
       flex-wrap:wrap;
       justify-content:flex-end;
@@ -99,12 +101,12 @@
     .search{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:8px;
       border: 1px solid var(--border);
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 9px 11px;
-      min-width: min(540px, 100%);
+      padding: 7px 10px;       /* reduced */
+      min-width: min(520px, 100%);
     }
 
     .search input{
@@ -113,18 +115,18 @@
       outline: none;
       background: transparent;
       color: var(--text);
-      font-size: 14px;
+      font-size: 13.5px;
     }
 
     .btn{
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--text);
-      padding: 9px 11px;
+      padding: 7px 10px;  /* reduced */
       border-radius: 10px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12.5px;
       transition: .12s ease;
       white-space: nowrap;
     }
@@ -139,18 +141,44 @@
 
     .row2{
       display:flex;
-      gap:10px;
+      gap:8px;
       align-items:center;
       flex-wrap:wrap;
       justify-content:flex-end;
       width:100%;
     }
 
+    /* TOP pills row (compact) */
+    .pillRowTop{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      width:100%;
+      justify-content:flex-end;
+      margin-top: 4px;
+    }
+
+    .pillTop{
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      padding: 5px 9px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size: 11.5px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .pillTop:hover{
+      border-color: rgba(233,84,32,.45);
+      color: var(--text);
+    }
+
     .grid{
       display:grid;
       grid-template-columns: 300px 1fr;
       gap: 12px;
-      padding: 10px 0 22px;
+      padding: 8px 0 18px;
     }
 
     @media (max-width: 960px){
@@ -168,21 +196,21 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 10px 12px;
+      padding: 9px 12px; /* reduced */
       border-bottom: 1px solid var(--border);
     }
 
     .panelHead h2{
       margin:0;
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: .7px;
     }
 
     .badge{
-      font-size: 12px;
-      padding: 5px 10px;
+      font-size: 11.5px;
+      padding: 5px 9px;
       border-radius: 999px;
       border: 1px solid var(--border);
       color: var(--muted);
@@ -195,8 +223,7 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-
-      max-height: 78vh;
+      max-height: 80vh;
       overflow: auto;
     }
 
@@ -206,7 +233,7 @@
       border: 1px solid var(--border);
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 11px;
+      padding: 10px 11px;
       cursor:pointer;
       transition:.12s ease;
       color: var(--text);
@@ -226,7 +253,7 @@
       gap:10px;
     }
     .setTitleRow b{
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--text);
     }
     .setDesc{
@@ -236,10 +263,10 @@
       line-height:1.35;
     }
 
-    /* RIGHT questions scroll + bigger area */
+    /* RIGHT questions scroll */
     #questionContainer{
       padding: 12px;
-      max-height: 82vh;
+      max-height: 84vh;
       overflow: auto;
     }
 
@@ -265,7 +292,7 @@
 
     .qTop h3{
       margin:0;
-      font-size: 14.5px;
+      font-size: 14.2px;
       line-height: 1.35;
       font-weight: 800;
     }
@@ -318,7 +345,7 @@
     }
 
     .hint{
-      padding: 10px 12px;
+      padding: 9px 12px;
       font-size: 12px;
       color: var(--muted);
       border-top: 1px solid var(--border);
@@ -347,6 +374,7 @@
       .pill{ align-self:flex-start; }
       #questionContainer{ max-height: unset; }
       .setList{ max-height: unset; }
+      .pillRowTop{ justify-content:flex-start; }
     }
 
     /* Print mode (PDF backup) */
@@ -364,7 +392,7 @@
     <div class="container">
       <div class="top">
         <div class="brand">
-          <h1>PFCD Lab Exam Portal</h1>
+          <h1>PFCD Portal</h1>
         </div>
 
         <div class="controls">
@@ -374,11 +402,14 @@
           </div>
 
           <div class="row2">
-            <button class="btn primary" id="themeBtn">Toggle Theme</button>
+            <button class="btn primary" id="themeBtn">Theme</button>
             <button class="btn" id="searchModeBtn">Search: Active Set</button>
-            <button class="btn" id="downloadTxtBtn">Download .txt</button>
-            <button class="btn" id="downloadPdfBtn">Download PDF</button>
+            <button class="btn" id="downloadTxtBtn">.txt</button>
+            <button class="btn" id="downloadPdfBtn">PDF</button>
           </div>
+
+          <!-- TOP PILLS -->
+          <div class="pillRowTop" id="pillRowTop"></div>
         </div>
       </div>
     </div>
@@ -396,8 +427,7 @@
         <div class="setList" id="setList"></div>
 
         <div class="hint">
-          ✅ Offline: save this file and open anytime.<br>
-          ✅ PDF button works offline too.
+          ✅ Offline ready • ✅ PDF button works offline
         </div>
       </section>
 
@@ -411,9 +441,7 @@
         <div id="questionContainer"></div>
 
         <div class="hint">
-          Copy options:
-          <b>Copy Full</b> = full code.
-          <b>Copy Clean</b> = code only (no sample-output comments).
+          Copy: <b>Full</b> = full code • <b>Clean</b> = removes sample-output comments
         </div>
       </section>
     </div>
@@ -422,9 +450,6 @@
   <div class="toast" id="toast">Copied ✅</div>
 
   <script>
-    /* =======================
-       DATA (Set-wise, Offline)
-    ======================== */
     const DATA = [
       {
         set: "SET-1",
@@ -1003,20 +1028,31 @@ print("Program 2 completed ->", summary_file)
       }
     ];
 
-    /* =======================
-       UI Logic
-    ======================== */
-    const $ = (id) => document.getElementById(id);
+    const TOPIC_PILLS = [
+      {label:"NumPy", value:"numpy"},
+      {label:"Pandas", value:"pandas"},
+      {label:"String", value:"string"},
+      {label:"List", value:"list"},
+      {label:"Dictionary", value:"dictionary"},
+      {label:"Lambda", value:"lambda"},
+      {label:"Prime", value:"prime"},
+      {label:"File", value:"file"},
+      {label:"Exception", value:"exception"},
+      {label:"Perfect", value:"perfect"},
+      {label:"Leap", value:"leap"}
+    ];
 
+    const $ = (id) => document.getElementById(id);
     const setList = $("setList");
     const questionContainer = $("questionContainer");
     const activeSetTitle = $("activeSetTitle");
     const countBadge = $("countBadge");
     const searchInput = $("searchInput");
     const toast = $("toast");
+    const pillRowTop = $("pillRowTop");
 
     let activeSet = DATA[0].set;
-    let searchModeAll = false; // false = active set only
+    let searchModeAll = false;
 
     function showToast(msg){
       toast.textContent = msg;
@@ -1028,7 +1064,6 @@ print("Program 2 completed ->", summary_file)
       return str.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
     }
 
-    // Copy helpers
     function cleanCode(code){
       const lines = code.split("\n");
       const filtered = lines.filter(line => {
@@ -1041,13 +1076,27 @@ print("Program 2 completed ->", summary_file)
       return filtered.join("\n").trim() + "\n";
     }
 
+    function renderTopPills(){
+      pillRowTop.innerHTML = "";
+      TOPIC_PILLS.forEach(p=>{
+        const b = document.createElement("button");
+        b.className = "pillTop";
+        b.textContent = p.label;
+        b.onclick = ()=>{
+          searchInput.value = p.value;
+          renderQuestions();
+        };
+        pillRowTop.appendChild(b);
+      });
+    }
+
     window.copyFull = function(setName, idx){
       const setObj = DATA.find(x=>x.set===setName);
       const item = setObj.questions[idx];
       navigator.clipboard.writeText(item.code).then(()=>{
         showToast("Copied Full ✅");
       }).catch(()=>showToast("Copy failed ❌"));
-    }
+    };
 
     window.copyClean = function(setName, idx){
       const setObj = DATA.find(x=>x.set===setName);
@@ -1055,7 +1104,7 @@ print("Program 2 completed ->", summary_file)
       navigator.clipboard.writeText(cleanCode(item.code)).then(()=>{
         showToast("Copied Clean ✅");
       }).catch(()=>showToast("Copy failed ❌"));
-    }
+    };
 
     function renderSets(){
       setList.innerHTML = "";
@@ -1145,9 +1194,6 @@ print("Program 2 completed ->", summary_file)
       }
     }
 
-    /* =======================
-       Theme Switcher (Offline)
-    ======================== */
     function setTheme(t){
       document.documentElement.setAttribute("data-theme", t);
       localStorage.setItem("pfcd_theme", t);
@@ -1156,7 +1202,7 @@ print("Program 2 completed ->", summary_file)
     const savedTheme = localStorage.getItem("pfcd_theme");
     if(savedTheme === "light" || savedTheme === "dark"){
       setTheme(savedTheme);
-    }else{
+    } else {
       setTheme("dark");
     }
 
@@ -1165,7 +1211,6 @@ print("Program 2 completed ->", summary_file)
       setTheme(current === "dark" ? "light" : "dark");
     };
 
-    /* Search mode toggle */
     function updateSearchModeBtn(){
       $("searchModeBtn").textContent = searchModeAll ? "Search: All Sets" : "Search: Active Set";
     }
@@ -1183,10 +1228,6 @@ print("Program 2 completed ->", summary_file)
 
     searchInput.addEventListener("input", renderQuestions);
 
-    /* =======================
-       Download TXT + PDF
-       (Offline)
-    ======================== */
     function buildExportText(){
       let out = "PFCD Lab Exam Portal Export\n";
       out += "====================================\n\n";
@@ -1227,10 +1268,11 @@ print("Program 2 completed ->", summary_file)
     };
 
     $("downloadPdfBtn").onclick = ()=>{
-      window.print(); // user can save as PDF
+      window.print();
     };
 
     updateSearchModeBtn();
+    renderTopPills();
     renderSets();
     renderQuestions();
   </script>
