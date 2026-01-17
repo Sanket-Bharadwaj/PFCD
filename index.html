@@ -7,8 +7,7 @@
 
   <style>
     /* =======================
-       Ubuntu/Jupyter-like Theme
-       (Offline - no CDN)
+       Ubuntu/Jupyter-like Theme (Offline)
     ======================== */
 
     :root{
@@ -63,30 +62,28 @@
     }
 
     .container{
-      max-width: 1150px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 10px;
     }
 
+    /* Compact top bar to maximize code canvas */
     .top{
       display:flex;
-      align-items:flex-start;
+      align-items:center;
       justify-content:space-between;
-      gap:14px;
+      gap:10px;
       flex-wrap:wrap;
-      padding: 10px 0 14px;
+      padding: 6px 0 8px;
     }
 
     .brand h1{
       margin:0;
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing:.2px;
     }
     .brand p{
-      margin:6px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-      line-height:1.35;
+      display:none; /* removed to save space */
     }
 
     .controls{
@@ -106,8 +103,8 @@
       border: 1px solid var(--border);
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 10px 12px;
-      min-width: min(560px, 100%);
+      padding: 9px 11px;
+      min-width: min(540px, 100%);
     }
 
     .search input{
@@ -123,12 +120,13 @@
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--text);
-      padding: 10px 12px;
+      padding: 9px 11px;
       border-radius: 10px;
       cursor: pointer;
       font-weight: 700;
       font-size: 13px;
       transition: .12s ease;
+      white-space: nowrap;
     }
     .btn:hover{
       border-color: rgba(233,84,32,.40);
@@ -148,33 +146,11 @@
       width:100%;
     }
 
-    .chipRow{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      width:100%;
-    }
-
-    .chip{
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      padding: 7px 10px;
-      border-radius: 999px;
-      cursor:pointer;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .chip:hover{
-      border-color: rgba(233,84,32,.45);
-      color: var(--text);
-    }
-
     .grid{
       display:grid;
-      grid-template-columns: 330px 1fr;
-      gap: 16px;
-      padding: 16px 0 50px;
+      grid-template-columns: 300px 1fr;
+      gap: 12px;
+      padding: 10px 0 22px;
     }
 
     @media (max-width: 960px){
@@ -192,7 +168,7 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 12px 14px;
+      padding: 10px 12px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -215,23 +191,22 @@
 
     /* LEFT sets scroll */
     .setList{
-      padding: 12px;
+      padding: 10px;
       display:flex;
       flex-direction:column;
       gap:10px;
 
-      max-height: 70vh;
+      max-height: 78vh;
       overflow: auto;
     }
 
-    /* FIX: set text always visible */
     .setBtn{
       width: 100%;
       text-align:left;
       border: 1px solid var(--border);
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 12px;
+      padding: 11px;
       cursor:pointer;
       transition:.12s ease;
       color: var(--text);
@@ -261,10 +236,10 @@
       line-height:1.35;
     }
 
-    /* RIGHT questions scroll */
+    /* RIGHT questions scroll + bigger area */
     #questionContainer{
-      padding: 14px;
-      max-height: 72vh;
+      padding: 12px;
+      max-height: 82vh;
       overflow: auto;
     }
 
@@ -272,8 +247,8 @@
       border: 1px solid var(--border);
       background: var(--card);
       border-radius: var(--radius);
-      padding: 14px;
-      margin-bottom: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
     }
 
     html[data-theme="light"] .qCard{
@@ -284,13 +259,13 @@
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 10px;
     }
 
     .qTop h3{
       margin:0;
-      font-size: 15px;
+      font-size: 14.5px;
       line-height: 1.35;
       font-weight: 800;
     }
@@ -343,7 +318,7 @@
     }
 
     .hint{
-      padding: 12px 14px;
+      padding: 10px 12px;
       font-size: 12px;
       color: var(--muted);
       border-top: 1px solid var(--border);
@@ -374,7 +349,7 @@
       .setList{ max-height: unset; }
     }
 
-    /* Print mode (offline backup as PDF) */
+    /* Print mode (PDF backup) */
     @media print{
       header, .panel:first-child{ display:none; }
       body{ background:white; color:black; }
@@ -390,10 +365,6 @@
       <div class="top">
         <div class="brand">
           <h1>PFCD Lab Exam Portal</h1>
-          <p>
-            ✅ Set-wise solutions • Full questions • Copy fast<br>
-            ✅ Works offline (single HTML) • Theme switcher
-          </p>
         </div>
 
         <div class="controls">
@@ -405,9 +376,9 @@
           <div class="row2">
             <button class="btn primary" id="themeBtn">Toggle Theme</button>
             <button class="btn" id="searchModeBtn">Search: Active Set</button>
+            <button class="btn" id="downloadTxtBtn">Download .txt</button>
+            <button class="btn" id="downloadPdfBtn">Download PDF</button>
           </div>
-
-          <div class="chipRow" id="chipRow"></div>
         </div>
       </div>
     </div>
@@ -425,8 +396,8 @@
         <div class="setList" id="setList"></div>
 
         <div class="hint">
-          ✅ Offline tip: save this page as file and open anytime.<br>
-          ✅ Print option: Ctrl+P / Cmd+P → Save as PDF.
+          ✅ Offline: save this file and open anytime.<br>
+          ✅ PDF button works offline too.
         </div>
       </section>
 
@@ -441,8 +412,8 @@
 
         <div class="hint">
           Copy options:
-          <b>Copy Full</b> = question + full code.
-          <b>Copy Clean</b> = code only (no sample output/comment block).
+          <b>Copy Full</b> = full code.
+          <b>Copy Clean</b> = code only (no sample-output comments).
         </div>
       </section>
     </div>
@@ -452,8 +423,7 @@
 
   <script>
     /* =======================
-       DATA (Set-wise)
-       (Offline embedded)
+       DATA (Set-wise, Offline)
     ======================== */
     const DATA = [
       {
@@ -1045,12 +1015,8 @@ print("Program 2 completed ->", summary_file)
     const searchInput = $("searchInput");
     const toast = $("toast");
 
-    const chipRow = $("chipRow");
-
     let activeSet = DATA[0].set;
     let searchModeAll = false; // false = active set only
-
-    const CHIP_KEYWORDS = ["duplicate", "numpy", "prime", "file", "exception", "dictionary", "lambda", "string"];
 
     function showToast(msg){
       toast.textContent = msg;
@@ -1064,7 +1030,6 @@ print("Program 2 completed ->", summary_file)
 
     // Copy helpers
     function cleanCode(code){
-      // Removes lines that look like sample output blocks (optional, safe)
       const lines = code.split("\n");
       const filtered = lines.filter(line => {
         const t = line.trim();
@@ -1090,20 +1055,6 @@ print("Program 2 completed ->", summary_file)
       navigator.clipboard.writeText(cleanCode(item.code)).then(()=>{
         showToast("Copied Clean ✅");
       }).catch(()=>showToast("Copy failed ❌"));
-    }
-
-    function renderChips(){
-      chipRow.innerHTML = "";
-      CHIP_KEYWORDS.forEach(k=>{
-        const c = document.createElement("button");
-        c.className = "chip";
-        c.textContent = k;
-        c.onclick = ()=>{
-          searchInput.value = k;
-          renderQuestions();
-        };
-        chipRow.appendChild(c);
-      });
     }
 
     function renderSets(){
@@ -1132,7 +1083,6 @@ print("Program 2 completed ->", summary_file)
       const query = searchInput.value.trim().toLowerCase();
       questionContainer.innerHTML = "";
 
-      // Decide which sets to scan
       const setsToRender = searchModeAll ? DATA : [DATA.find(x=>x.set===activeSet)];
 
       if(!searchModeAll){
@@ -1233,9 +1183,55 @@ print("Program 2 completed ->", summary_file)
 
     searchInput.addEventListener("input", renderQuestions);
 
-    renderChips();
-    renderSets();
+    /* =======================
+       Download TXT + PDF
+       (Offline)
+    ======================== */
+    function buildExportText(){
+      let out = "PFCD Lab Exam Portal Export\n";
+      out += "====================================\n\n";
+      DATA.forEach(setObj=>{
+        out += setObj.set + " - " + setObj.desc + "\n";
+        out += "------------------------------------\n\n";
+        setObj.questions.forEach((q, i)=>{
+          out += `${setObj.set} Q${i+1}\n`;
+          out += q.title + "\n\n";
+          if(q.options && q.options.length){
+            out += "Options:\n";
+            q.options.forEach(op => out += " - " + op + "\n");
+            out += "\n";
+          }
+          out += "CODE:\n";
+          out += q.code + "\n";
+          out += "====================================\n\n";
+        });
+      });
+      return out;
+    }
+
+    function downloadTextFile(filename, text){
+      const blob = new Blob([text], {type: "text/plain"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    $("downloadTxtBtn").onclick = ()=>{
+      const text = buildExportText();
+      downloadTextFile("PFCD_Setwise_Solutions.txt", text);
+    };
+
+    $("downloadPdfBtn").onclick = ()=>{
+      window.print(); // user can save as PDF
+    };
+
     updateSearchModeBtn();
+    renderSets();
     renderQuestions();
   </script>
 </body>
