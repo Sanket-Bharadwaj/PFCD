@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PFCD Lab Exam Portal</title>
+
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --panel:#101525;
+      --panel2:#0e1322;
+      --card:#151c2f;
+      --text:#eaf0ff;
+      --muted:#9aa7c7;
+      --accent:#7c5cff;
+      --accent2:#00d4ff;
+      --danger:#ff4d6d;
+      --ok:#22c55e;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --radius2:26px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(124,92,255,.20), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(0,212,255,.15), transparent 55%),
+        radial-gradient(900px 500px at 40% 90%, rgba(34,197,94,.10), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(12px);
+      background: rgba(11,13,18,.65);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 18px;}
+    .topbar{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow: 0 10px 25px rgba(124,92,255,.25);
+    }
+    .brand h1{
+      font-size:18px;margin:0;
+      letter-spacing:.3px;
+    }
+    .brand p{margin:0;color:var(--muted);font-size:12px}
+
+    .searchRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex:1;
+      justify-content:flex-end;
+      min-width:260px;
+    }
+    .search{
+      width:min(520px,100%);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      background: rgba(16,21,37,.85);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:10px 12px;
+      box-shadow: var(--shadow);
+    }
+    .search input{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font-size:14px;
+    }
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(124,92,255,.12);
+      color:var(--text);
+      border:1px solid rgba(124,92,255,.25);
+      transition:.2s ease;
+      font-weight:600;
+      font-size:13px;
+    }
+    .btn:hover{transform:translateY(-1px); background: rgba(124,92,255,.18);}
+    .btn.ghost{
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--border);
+    }
+
+    main{padding:22px 18px 60px;}
+    .grid{
+      max-width:1100px;margin:0 auto;
+      display:grid;
+      grid-template-columns: 340px 1fr;
+      gap:18px;
+    }
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .panel{
+      background: rgba(16,21,37,.65);
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panelHeader{
+      padding:16px 16px 12px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .panelHeader h2{
+      margin:0;font-size:14px;
+      color:var(--muted);
+      letter-spacing:.4px;
+      text-transform:uppercase;
+    }
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+    }
+
+    .sets{
+      display:flex;
+      flex-direction:column;
+      padding:12px;
+      gap:10px;
+    }
+
+    .setBtn{
+      text-align:left;
+      width:100%;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background: rgba(21,28,47,.55);
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .setBtn:hover{transform:translateY(-1px)}
+    .setBtn.active{
+      border-color: rgba(124,92,255,.55);
+      background: rgba(124,92,255,.10);
+      box-shadow: 0 0 0 3px rgba(124,92,255,.10) inset;
+    }
+    .setTitle{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .setMeta{
+      margin-top:6px;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.3;
+    }
+
+    .content{
+      padding:16px;
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: rgba(21,28,47,.45);
+      border-radius: var(--radius2);
+      padding:14px;
+      box-shadow: var(--shadow);
+      margin-bottom:14px;
+    }
+
+    .qHead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .qHead h3{
+      margin:0;
+      font-size:15px;
+      line-height:1.35;
+    }
+    .pill{
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(0,212,255,.10);
+      border:1px solid rgba(0,212,255,.25);
+      color: var(--text);
+      white-space:nowrap;
+    }
+
+    .opts{
+      margin:10px 0 8px;
+      padding:10px 12px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size:13px;
+    }
+    .opts b{color:var(--text)}
+
+    pre{
+      margin:0;
+      white-space:pre-wrap;
+      word-wrap:break-word;
+      font-family: var(--mono);
+      font-size:12.5px;
+      line-height:1.35;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.35);
+      overflow:auto;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .hint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:8px;
+    }
+
+    .toast{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      background: rgba(16,21,37,.95);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius:16px;
+      padding:12px 14px;
+      font-size:13px;
+      color:var(--text);
+      display:none;
+    }
+    .toast.show{display:block;}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo"></div>
+          <div>
+            <h1>PFCD Lab Exam Portal</h1>
+            <p>Set-wise solutions • Full questions • Copy-ready code</p>
+          </div>
+        </div>
+
+        <div class="searchRow">
+          <div class="search">
+            <input id="searchInput" placeholder="Search: duplicate / numpy / prime / file / exception / dictionary..." />
+            <button class="btn ghost" id="clearBtn">Clear</button>
+          </div>
+          <button class="btn" id="expandBtn">Expand All</button>
+          <button class="btn ghost" id="collapseBtn">Collapse</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <!-- LEFT -->
+      <section class="panel">
+        <div class="panelHeader">
+          <h2>Sets</h2>
+          <span class="badge" id="countBadge">0 Questions</span>
+        </div>
+        <div class="sets" id="setList"></div>
+        <div class="content">
+          <div class="hint">
+            ✅ Tip: During exam press <b>Ctrl+F</b> / <b>Cmd+F</b> and search keywords.
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="panel">
+        <div class="panelHeader">
+          <h2 id="activeSetTitle">Set</h2>
+          <span class="badge" id="activeBadge">Ready</span>
+        </div>
+        <div class="content" id="questionContainer"></div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">Copied ✅</div>
+
+  <script>
+    // ✅ Data: Set-wise questions + solutions
+    // NOTE: You can edit code text inside each question anytime.
+
+    const DATA = [
+      {
+        set: "SET-1",
+        desc: "Lists + NumPy",
+        questions: [
+          {
+            title: "Q1: (a) Write a Python program to remove duplicate elements from a list while maintaining the original order. (b) Write a Python program to find the second largest element in a list without using built-in functions like max() or sort().",
+            options: [],
+            code: `# =========================
+# SET-1 : Q1
+# =========================
+# Q1:
+# a) Write a Python program to remove duplicate elements from a list while maintaining the original order.
+# b) Write a Python program to find the second largest element in a list without using built-in functions like max() or sort().
+
+# -------- Q1(a) --------
+nums = [1, 2, 3, 4, 5, 2, 3, 4]
+seen = set()
+unique = []
+for x in nums:
+    if x not in seen:
+        unique.append(x)
+        seen.add(x)
+
+print("Q1(a) Output")
+print("Original List:", nums)
+print("List after removing duplicates (order preserved):", unique)
+print()
+
+# -------- Q1(b) --------
+nums2 = [10, 5, 20, 8, 20, 3]
+first = None
+second = None
+
+for x in nums2:
+    if first is None or x > first:
+        second = first
+        first = x
+    elif x != first and (second is None or x > second):
+        second = x
+
+print("Q1(b) Output")
+print("List:", nums2)
+print("Second largest element (without max/sort):", second)
+`
+          },
+          {
+            title: "Q2: (a) Using NumPy, write a program to calculate the average temperature of a week and count how many days had temperature above average. (b) Given a 2D NumPy array representing weekly sales (rows: products, columns: weeks), write a program to: (i) Calculate total sales for each product (ii) Identify the product with the highest total sales.",
+            options: [],
+            code: `# =========================
+# SET-1 : Q2
+# =========================
+# Q2:
+# a) Using NumPy, write a program to calculate the average temperature of a week and count how many days had temperature above average.
+# b) Given a 2D NumPy array representing weekly sales (rows: products, columns: weeks), write a program to:
+#    (i) Calculate total sales for each product
+#    (ii) Identify the product with the highest total sales
+
+import numpy as np
+
+# -------- Q2(a) --------
+temps = np.array([28, 30, 31, 29, 27, 32, 26])
+avg_temp = temps.mean()
+days_above_avg = np.sum(temps > avg_temp)
+
+print("Q2(a) Output")
+print("Weekly Temperatures:", temps)
+print("Average Temperature:", avg_temp)
+print("Number of days above average:", days_above_avg)
+print()
+
+# -------- Q2(b) --------
+sales = np.array([
+    [10, 12, 9, 11],
+    [8,  7, 10, 9],
+    [15, 14, 13, 12]
+])
+
+total_sales_per_product = np.sum(sales, axis=1)
+highest_product_index = np.argmax(total_sales_per_product)
+
+print("Q2(b) Output")
+print("Sales Array (Products x Weeks):")
+print(sales)
+print("Total Sales for each product:", total_sales_per_product)
+print("Product with highest total sales (1-based):", highest_product_index + 1)
+`
+          }
+        ]
+      },
+
+      {
+        set: "SET-3",
+        desc: "Strings + Lists",
+        questions: [
+          {
+            title: `Q1: Consider the following string: quote = "In the middle of difficulty lies opportunity"
+(a) Count the number of words in the quote
+(b) Remove all vowels (a, e, i, o, u) from the quote
+(c) Replace "difficulty" with "challenge" and "opportunity" with "possibility"
+(d) Sort the words of the quote based on their length (ascending order)`,
+            options: [],
+            code: `# =========================
+# SET-3 : Q1
+# =========================
+quote = "In the middle of difficulty lies opportunity"
+
+# (a) Word count
+words = quote.split()
+print("(a) Word count:", len(words))
+
+# (b) Remove vowels
+vowels = "aeiouAEIOU"
+no_vowels = "".join(ch for ch in quote if ch not in vowels)
+print("(b) Without vowels:", no_vowels)
+
+# (c) Replace words
+replaced = quote.replace("difficulty", "challenge").replace("opportunity", "possibility")
+print("(c) Replaced:", replaced)
+
+# (d) Sort words by length
+sorted_words = sorted(words, key=len)
+print("(d) Words sorted by length:", sorted_words)
+`
+          },
+          {
+            title: `Q2: Given two lists:
+StudentIDs = [201, 202, 203, 204, 205, 206, 207]
+Scores     = [85, 92, 78, 64, 88, 91, 73]
+(a) Find all StudentIDs who scored 75 or above
+(b) Calculate the average score without using built-in functions
+(c) Find the StudentID with the lowest score without using built-in functions`,
+            options: [],
+            code: `# =========================
+# SET-3 : Q2
+# =========================
+StudentIDs = [201, 202, 203, 204, 205, 206, 207]
+Scores     = [85, 92, 78, 64, 88, 91, 73]
+
+# (a)
+eligible = []
+for i in range(len(Scores)):
+    if Scores[i] >= 75:
+        eligible.append(StudentIDs[i])
+print("(a) IDs scoring >= 75:", eligible)
+
+# (b)
+total = 0
+count = 0
+for s in Scores:
+    total += s
+    count += 1
+avg = total / count
+print("(b) Average score:", avg)
+
+# (c)
+min_score = Scores[0]
+min_id = StudentIDs[0]
+for i in range(1, len(Scores)):
+    if Scores[i] < min_score:
+        min_score = Scores[i]
+        min_id = StudentIDs[i]
+print("(c) Lowest score StudentID:", min_id, "Score:", min_score)
+`
+          },
+        ]
+      },
+
+      {
+        set: "SET-4",
+        desc: "Sentence + Dict",
+        questions: [
+          {
+            title: `Q1: Given the sentence:
+sentence = "The quick brown fox jumps over the lazy dog"
+(a) Remove duplicate characters from the sentence while preserving the first occurrence
+(b) Count the frequency of each character (case-insensitive) using a dictionary (ignore spaces)
+(c) Find the longest word in the sentence and count the number of vowels in it
+(d) Reverse the order of words in the sentence`,
+            options: [],
+            code: `# =========================
+# SET-4 : Q1
+# =========================
+sentence = "The quick brown fox jumps over the lazy dog"
+
+# (a)
+seen = set()
+unique_chars = []
+for ch in sentence:
+    if ch not in seen:
+        unique_chars.append(ch)
+        seen.add(ch)
+print("(a) Without duplicate characters:", "".join(unique_chars))
+
+# (b)
+freq = {}
+for ch in sentence.lower():
+    if ch == " ":
+        continue
+    freq[ch] = freq.get(ch, 0) + 1
+print("(b) Frequency dict:", freq)
+
+# (c)
+words = sentence.split()
+longest = words[0]
+for w in words[1:]:
+    if len(w) > len(longest):
+        longest = w
+
+vowels = "aeiouAEIOU"
+vowel_count = 0
+for ch in longest:
+    if ch in vowels:
+        vowel_count += 1
+print("(c) Longest word:", longest, "| Vowels:", vowel_count)
+
+# (d)
+print("(d) Reverse word order:", " ".join(words[::-1]))
+`
+          },
+          {
+            title: `Q2: Given:
+ProductIDs = [101, 102, 103, 104, 105, 106, 107]
+Prices     = [250, 400, 150, 300, 450, 200, 350]
+(a) Create a dictionary mapping each ProductID to its corresponding Price
+(b) Find the ProductID with the highest price without using built-in functions
+(c) Calculate the total price of all products without using sum()`,
+            options: [],
+            code: `# =========================
+# SET-4 : Q2
+# =========================
+ProductIDs = [101, 102, 103, 104, 105, 106, 107]
+Prices     = [250, 400, 150, 300, 450, 200, 350]
+
+# (a)
+price_map = {}
+for i in range(len(ProductIDs)):
+    price_map[ProductIDs[i]] = Prices[i]
+print("(a) ProductID -> Price:", price_map)
+
+# (b)
+max_price = Prices[0]
+max_id = ProductIDs[0]
+for i in range(1, len(Prices)):
+    if Prices[i] > max_price:
+        max_price = Prices[i]
+        max_id = ProductIDs[i]
+print("(b) Highest price ProductID:", max_id, "Price:", max_price)
+
+# (c)
+total = 0
+for p in Prices:
+    total += p
+print("(c) Total price:", total)
+`
+          }
+        ]
+      },
+
+      {
+        set: "SET-5",
+        desc: "Lambda + Prime + Menu",
+        questions: [
+          {
+            title: `Q1:
+(A) Write a Python program that:
+1) Takes a list as input
+2) Removes duplicates while preserving the original order
+3) Selects only odd numbers using lambda
+4) Finds cubes of odd numbers using lambda
+5) Finds the sum of cubes of odd numbers
+(B) Write a Python program to check whether a given number is prime or not.`,
+            options: [],
+            code: `# =========================
+# SET-5 : Q1
+# =========================
+
+# (A)
+nums = [1, 2, 3, 4, 5, 2, 3, 4]
+seen = set()
+unique = []
+for x in nums:
+    if x not in seen:
+        unique.append(x)
+        seen.add(x)
+
+odd_nums = list(filter(lambda x: x % 2 == 1, unique))
+cubes = list(map(lambda x: x**3, odd_nums))
+
+sum_cubes = 0
+for c in cubes:
+    sum_cubes += c
+
+print("Q1(A) Output")
+print("Original:", nums)
+print("Unique:", unique)
+print("Odd:", odd_nums)
+print("Cubes:", cubes)
+print("Sum of cubes:", sum_cubes)
+print()
+
+# (B) Prime
+n = 29
+if n <= 1:
+    print("Q1(B) Output")
+    print(n, "is NOT prime")
+else:
+    is_prime = True
+    i = 2
+    while i*i <= n:
+        if n % i == 0:
+            is_prime = False
+            break
+        i += 1
+    print("Q1(B) Output")
+    print(n, "is prime" if is_prime else "is NOT prime")
+`
+          },
+          {
+            title: `Q2:
+(a) Write a program to read First Name and Last Name and print the message:
+"Hello <First Name> <Last Name> Welcome to python programming."
+(b) Write a program to input a number of seconds and convert into Days, Hours, Minutes and Seconds
+(c) Write a program to implement the given dictionary:
+WeatherConditions = {"a":"Sunny","b":"Cloudy","c":"Rainy","d":"Snowy","e":"Foggy"}
+Give the user choices and print the corresponding weather condition.`,
+            options: [
+              "a) Sunny",
+              "b) Cloudy",
+              "c) Rainy",
+              "d) Snowy",
+              "e) Foggy"
+            ],
+            code: `# =========================
+# SET-5 : Q2
+# =========================
+
+# (a)
+first = "John"
+last = "Doe"
+print("(a) Greeting:")
+print(f"Hello {first} {last} Welcome to python programming.")
+print()
+
+# (b)
+total_seconds = 100000
+days = total_seconds // (24*3600)
+rem = total_seconds % (24*3600)
+hours = rem // 3600
+rem = rem % 3600
+minutes = rem // 60
+seconds = rem % 60
+
+print("(b) Time Conversion:")
+print("Input seconds:", total_seconds)
+print("Days:", days)
+print("Hours:", hours)
+print("Minutes:", minutes)
+print("Seconds:", seconds)
+print()
+
+# (c)
+WeatherConditions = {"a":"Sunny","b":"Cloudy","c":"Rainy","d":"Snowy","e":"Foggy"}
+
+print("(c) Weather Menu:")
+print("a) Sunny")
+print("b) Cloudy")
+print("c) Rainy")
+print("d) Snowy")
+print("e) Foggy")
+
+choice = "d"
+if choice in WeatherConditions:
+    print("Selected:", choice)
+    print("Current weather condition is:", WeatherConditions[choice])
+else:
+    print("Invalid choice")
+`
+          }
+        ]
+      },
+
+      {
+        set: "SET-6",
+        desc: "Functions + Perfect/Leap",
+        questions: [
+          {
+            title: `Q1:
+(A) Write a function that takes first name, middle name, and last name as input and returns the name formatted as:
+"Last, First Middle" (Capitalize properly)
+(B) Implement the dictionary:
+Designation = {"a":"Professor","b":"Associate Professor","c":"Assistant Professor","d":"Sr. Lab Technician","e":"Jr. Lab Technician"}
+Display options and print designation based on user choice.`,
+            options: [
+              "a) Professor",
+              "b) Associate Professor",
+              "c) Assistant Professor",
+              "d) Sr. Lab Technician",
+              "e) Jr. Lab Technician"
+            ],
+            code: `# =========================
+# SET-6 : Q1
+# =========================
+
+# (A)
+def format_name(first, middle, last):
+    first = first.strip().capitalize()
+    middle = middle.strip().capitalize()
+    last = last.strip().capitalize()
+
+    if middle == "":
+        return f"{last}, {first}"
+    return f"{last}, {first} {middle}"
+
+print("Q1(A) Output")
+print("Example:", format_name("abc", "", "xyz"))
+print("Example:", format_name("abc", "mno", "xyz"))
+print()
+
+# (B)
+Designation = {
+    "a":"Professor",
+    "b":"Associate Professor",
+    "c":"Assistant Professor",
+    "d":"Sr. Lab Technician",
+    "e":"Jr. Lab Technician"
+}
+
+print("Q1(B) Menu:")
+print("a) Professor")
+print("b) Associate Professor")
+print("c) Assistant Professor")
+print("d) Sr. Lab Technician")
+print("e) Jr. Lab Technician")
+
+choice = "b"
+if choice in Designation:
+    print("Designation is:", Designation[choice])
+else:
+    print("Invalid choice")
+`
+          },
+          {
+            title: `Q2:
+(a) Write a function to check whether a given number is a Perfect Number or not.
+(b) Write a program to check whether a given year is a Leap Year or not.`,
+            options: [],
+            code: `# =========================
+# SET-6 : Q2
+# =========================
+
+# (a) Perfect Number
+def is_perfect(n):
+    if n <= 1:
+        return False
+    s = 1
+    i = 2
+    while i*i <= n:
+        if n % i == 0:
+            s += i
+            if i != n // i:
+                s += n // i
+        i += 1
+    return s == n
+
+num = 28
+print("(a) Perfect Number Check:")
+print(num, "is Perfect" if is_perfect(num) else "is NOT Perfect")
+print()
+
+# (b) Leap Year
+year = 2024
+print("(b) Leap Year Check:")
+if (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0):
+    print(year, "is a Leap Year")
+else:
+    print(year, "is NOT a Leap Year")
+`
+          }
+        ]
+      },
+
+      {
+        set: "SET-7",
+        desc: "Exception + File Handling",
+        questions: [
+          {
+            title: `Q1: Write a program to divide two numbers using exception handling:
+(a) Divide two numbers
+(b) Handle divide by zero error
+(c) Handle invalid input
+If no exception occurs, print "Program executed successfully"`,
+            options: [],
+            code: `# =========================
+# SET-7 : Q1
+# =========================
+try:
+    a = float(input("Enter first number: "))
+    b = float(input("Enter second number: "))
+    result = a / b
+    print("Result:", result)
+    print("Program executed successfully")
+
+except ZeroDivisionError:
+    print("Error: Cannot divide by zero!")
+
+except ValueError:
+    print("Error: Invalid input! Please enter numeric values.")
+`
+          },
+          {
+            title: `Q2:
+Program 1:
+Read a file containing student names and marks (5 subjects).
+Calculate total marks and percentage for each student.
+Write only those students with percentage >= 60 to an output file.
+
+Program 2:
+Read the output file and calculate:
+(a) Highest percentage
+(b) Average percentage
+Write this summary into another file.`,
+            options: [],
+            code: `# =========================
+# SET-7 : Q2
+# =========================
+
+input_file = "students_input.txt"
+output_file = "students_output.txt"
+summary_file = "summary.txt"
+
+# Sample input (for demo)
+sample_data = [
+    "Amit 80 75 90 85 70",
+    "Riya 55 60 58 62 59",
+    "John 90 92 88 95 91",
+    "Neha 60 60 60 60 60"
+]
+
+# Create input file
+with open(input_file, "w") as f:
+    for line in sample_data:
+        f.write(line + "\\n")
+
+# -------- Program 1 --------
+with open(input_file, "r") as fin, open(output_file, "w") as fout:
+    for line in fin:
+        parts = line.split()
+        name = parts[0]
+        marks = [int(x) for x in parts[1:]]
+
+        total = 0
+        for m in marks:
+            total += m
+
+        percentage = total / len(marks)
+
+        if percentage >= 60:
+            fout.write(f"{name} {total} {percentage:.2f}\\n")
+
+print("Program 1 completed ->", output_file)
+
+# -------- Program 2 --------
+percentages = []
+with open(output_file, "r") as f:
+    for line in f:
+        parts = line.split()
+        percentages.append(float(parts[2]))
+
+if len(percentages) > 0:
+    highest = percentages[0]
+    sum_p = 0
+
+    for p in percentages:
+        sum_p += p
+        if p > highest:
+            highest = p
+
+    avg_p = sum_p / len(percentages)
+else:
+    highest = 0
+    avg_p = 0
+
+with open(summary_file, "w") as f:
+    f.write(f"Highest Percentage: {highest:.2f}\\n")
+    f.write(f"Average Percentage: {avg_p:.2f}\\n")
+
+print("Program 2 completed ->", summary_file)
+`
+          }
+        ]
+      }
+    ];
+
+    // UI rendering
+    const setList = document.getElementById("setList");
+    const container = document.getElementById("questionContainer");
+    const searchInput = document.getElementById("searchInput");
+    const countBadge = document.getElementById("countBadge");
+    const activeSetTitle = document.getElementById("activeSetTitle");
+
+    const toast = document.getElementById("toast");
+
+    let activeSet = DATA[0].set;
+    let expandAll = true;
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"), 900);
+    }
+
+    function escapeHTML(str){
+      return str.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+    }
+
+    function renderSets(){
+      setList.innerHTML = "";
+      DATA.forEach((s)=>{
+        const btn = document.createElement("button");
+        btn.className = "setBtn" + (s.set===activeSet ? " active" : "");
+        btn.onclick = ()=>{ activeSet = s.set; renderSets(); renderQuestions(); };
+
+        btn.innerHTML = `
+          <div class="setTitle">
+            <span>${s.set}</span>
+            <span class="badge">${s.questions.length} Q</span>
+          </div>
+          <div class="setMeta">${s.desc}</div>
+        `;
+        setList.appendChild(btn);
+      });
+    }
+
+    function renderQuestions(){
+      const q = DATA.find(x=>x.set===activeSet);
+      activeSetTitle.textContent = q.set;
+      countBadge.textContent = q.questions.length + " Questions";
+
+      const query = searchInput.value.trim().toLowerCase();
+
+      container.innerHTML = "";
+      q.questions.forEach((item, idx)=>{
+        const fullText = (item.title + " " + item.code).toLowerCase();
+        if(query && !fullText.includes(query)) return;
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const optsHTML = item.options?.length
+          ? `<div class="opts"><b>Options:</b><br>${item.options.map(x=>`• ${x}`).join("<br>")}</div>`
+          : "";
+
+        card.innerHTML = `
+          <div class="qHead">
+            <h3>${escapeHTML(item.title)}</h3>
+            <span class="pill">Q${idx+1}</span>
+          </div>
+          ${optsHTML}
+          <pre id="code-${activeSet}-${idx}">${escapeHTML(item.code)}</pre>
+          <div class="actions">
+            <button class="btn" onclick="copyCode('${activeSet}', ${idx})">Copy Code</button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      if(container.innerHTML.trim()===""){
+        container.innerHTML = `<div class="card">
+          <h3>No matches found.</h3>
+          <div class="hint">Try keywords like: <b>numpy</b>, <b>duplicate</b>, <b>prime</b>, <b>file</b>, <b>exception</b></div>
+        </div>`;
+      }
+    }
+
+    window.copyCode = function(setName, idx){
+      const pre = document.getElementById(`code-${setName}-${idx}`);
+      const text = pre.innerText;
+      navigator.clipboard.writeText(text).then(()=>{
+        showToast("Copied ✅");
+      }).catch(()=>{
+        showToast("Copy failed ❌");
+      });
+    };
+
+    document.getElementById("clearBtn").onclick = ()=>{
+      searchInput.value = "";
+      renderQuestions();
+    };
+
+    document.getElementById("expandBtn").onclick = ()=>{
+      expandAll = true;
+      showToast("Expanded ✅");
+      // (cards already expanded - keeping simple)
+    };
+
+    document.getElementById("collapseBtn").onclick = ()=>{
+      expandAll = false;
+      showToast("Collapsed ✅");
+      // (keeping simple - no collapsible sections needed)
+    };
+
+    searchInput.addEventListener("input", renderQuestions);
+
+    renderSets();
+    renderQuestions();
+  </script>
+</body>
+</html>
