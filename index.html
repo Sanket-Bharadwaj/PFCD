@@ -47,10 +47,6 @@
       color: var(--text);
     }
 
-    /* ===========================
-       HEADER (Sticky on desktop)
-       NOT sticky on small screens
-    ============================ */
     header{
       position: sticky;
       top:0;
@@ -72,7 +68,6 @@
       padding: 6px 10px;
     }
 
-    /* COMPACT TOP BAR */
     .topbar{
       display:flex;
       align-items:center;
@@ -96,7 +91,6 @@
       letter-spacing:.2px;
     }
 
-    /* Search in center */
     .searchWrap{
       flex: 1;
       min-width: 220px;
@@ -154,7 +148,6 @@
       background: var(--primarySoft);
     }
 
-    /* TOP PILLS BAR */
     .pillRowTop{
       display:flex;
       gap:6px;
@@ -226,7 +219,6 @@
       background: transparent;
     }
 
-    /* LEFT sets scroll */
     .setList{
       padding: 10px;
       display:flex;
@@ -270,7 +262,6 @@
       line-height:1.35;
     }
 
-    /* RIGHT questions scroll */
     #questionContainer{
       padding: 12px;
       max-height: 84vh;
@@ -362,7 +353,7 @@
       right: 14px;
       bottom: 14px;
       background: var(--surface);
-      border:  1px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 9px 12px;
       font-size: 13px;
@@ -451,6 +442,321 @@
 
   <script>
     const DATA = [
+
+      /* ✅ NOTES SECTION ADDED */
+      {
+        set: "NOTES",
+        desc: "Quick Short Notes + Tiny Examples (Revision)",
+        questions: [
+          {
+            title: `NOTE 1: Input / Output + Type Casting
+- input() returns string by default
+- Use int(), float() to convert`,
+            options: [],
+            code: `# =========================
+# NOTES : Input/Output + Type Casting
+# =========================
+
+# Example:
+x = "12"
+y = "5"
+
+print("x + y (string):", x + y)
+
+a = int(x)
+b = int(y)
+
+print("a + b (int):", a + b)
+`
+          },
+
+          {
+            title: `NOTE 2: Strings (split, replace, slicing)
+- split() -> list of words
+- replace(old,new)
+- s[::-1] -> reverse string`,
+            options: [],
+            code: `# =========================
+# NOTES : Strings
+# =========================
+
+s = "python is easy"
+print("Words:", s.split())
+
+print("Replace:", s.replace("easy", "powerful"))
+
+print("Reverse string:", s[::-1])
+`
+          },
+
+          {
+            title: `NOTE 3: List Duplicate Remove (Order Preserved)
+Logic:
+- Maintain a set 'seen'
+- Append only first time element appears`,
+            options: [],
+            code: `# =========================
+# NOTES : Remove Duplicates (List)
+# =========================
+
+nums = [1,2,3,2,4,1,5]
+seen = set()
+unique = []
+
+for x in nums:
+    if x not in seen:
+        unique.append(x)
+        seen.add(x)
+
+print("Original:", nums)
+print("Unique:", unique)
+`
+          },
+
+          {
+            title: `NOTE 4: Second Largest Without sort() / max()
+Logic:
+- Track first and second while looping`,
+            options: [],
+            code: `# =========================
+# NOTES : Second Largest
+# =========================
+
+nums = [10, 5, 20, 8, 20, 3]
+first = None
+second = None
+
+for x in nums:
+    if first is None or x > first:
+        second = first
+        first = x
+    elif x != first and (second is None or x > second):
+        second = x
+
+print("Second largest:", second)
+`
+          },
+
+          {
+            title: `NOTE 5: Dictionary Frequency Count
+Logic:
+- Use dict.get(key,0) + 1`,
+            options: [],
+            code: `# =========================
+# NOTES : Dictionary Frequency
+# =========================
+
+items = ["pen","book","pen","pencil"]
+freq = {}
+
+for x in items:
+    freq[x] = freq.get(x, 0) + 1
+
+print("Frequency:", freq)
+`
+          },
+
+          {
+            title: `NOTE 6: Sets (Union / Intersection / Difference)
+- union() -> combine unique
+- intersection() -> common
+- difference() -> only in first`,
+            options: [],
+            code: `# =========================
+# NOTES : Set Operations
+# =========================
+
+a = {1,2,3,4}
+b = {3,4,5}
+
+print("Union:", a.union(b))
+print("Intersection:", a.intersection(b))
+print("Difference a-b:", a.difference(b))
+`
+          },
+
+          {
+            title: `NOTE 7: Prime Number Logic
+- Prime means divisible only by 1 and itself
+- Check from 2 to sqrt(n)`,
+            options: [],
+            code: `# =========================
+# NOTES : Prime Check
+# =========================
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    i = 2
+    while i*i <= n:
+        if n % i == 0:
+            return False
+        i += 1
+    return True
+
+print("29 prime?", is_prime(29))
+print("20 prime?", is_prime(20))
+`
+          },
+
+          {
+            title: `NOTE 8: Palindrome Number
+- Reverse digits and compare`,
+            options: [],
+            code: `# =========================
+# NOTES : Palindrome Number
+# =========================
+
+def is_palindrome(n):
+    temp = n
+    rev = 0
+    while temp > 0:
+        rev = rev*10 + (temp % 10)
+        temp //= 10
+    return rev == n
+
+print("121 palindrome?", is_palindrome(121))
+print("123 palindrome?", is_palindrome(123))
+`
+          },
+
+          {
+            title: `NOTE 9: Fibonacci Series (Loop)
+- Start: 0, 1
+- Next = a + b`,
+            options: [],
+            code: `# =========================
+# NOTES : Fibonacci
+# =========================
+
+n = 7
+a, b = 0, 1
+
+print("Fibonacci series:")
+for _ in range(n):
+    print(a, end=" ")
+    a, b = b, a+b
+print()
+`
+          },
+
+          {
+            title: `NOTE 10: Perfect Number
+- Sum of proper divisors = number
+Example: 6 -> 1+2+3=6`,
+            options: [],
+            code: `# =========================
+# NOTES : Perfect Number
+# =========================
+
+def is_perfect(n):
+    if n <= 1:
+        return False
+    s = 1
+    i = 2
+    while i*i <= n:
+        if n % i == 0:
+            s += i
+            if i != n//i:
+                s += n//i
+        i += 1
+    return s == n
+
+print("6 perfect?", is_perfect(6))
+print("28 perfect?", is_perfect(28))
+print("12 perfect?", is_perfect(12))
+`
+          },
+
+          {
+            title: `NOTE 11: Leap Year Check
+Rule:
+- divisible by 400 => leap
+- else divisible by 4 and not by 100 => leap`,
+            options: [],
+            code: `# =========================
+# NOTES : Leap Year
+# =========================
+
+year = 2024
+if (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0):
+    print(year, "is Leap Year")
+else:
+    print(year, "is NOT Leap Year")
+`
+          },
+
+          {
+            title: `NOTE 12: Exception Handling (try/except/finally)
+- Prevent crash on error
+- finally runs always`,
+            options: [],
+            code: `# =========================
+# NOTES : Exception Handling
+# =========================
+
+try:
+    a = 10
+    b = 0
+    print(a / b)
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+finally:
+    print("Done")
+`
+          },
+
+          {
+            title: `NOTE 13: File Handling (Write + Read)
+Modes:
+- "w" write (overwrite)
+- "a" append
+- "r" read`,
+            options: [],
+            code: `# =========================
+# NOTES : File Handling
+# =========================
+
+fname = "demo.txt"
+
+# write
+with open(fname, "w") as f:
+    f.write("Hello PFCD\\n")
+    f.write("File Handling Example\\n")
+
+# read
+with open(fname, "r") as f:
+    data = f.read()
+
+print("File content:\\n", data)
+`
+          },
+
+          {
+            title: `NOTE 14: NumPy Quick (array + mean + sum)
+- mean() average
+- sum(axis=0/1)`,
+            options: [],
+            code: `# =========================
+# NOTES : NumPy Quick
+# =========================
+
+import numpy as np
+
+a = np.array([10, 20, 30])
+print("Array:", a)
+print("Mean:", a.mean())
+
+m = np.array([[1,2,3],[4,5,6]])
+print("Matrix:\\n", m)
+print("Row sum:", np.sum(m, axis=1))
+print("Col sum:", np.sum(m, axis=0))
+`
+          }
+        ]
+      },
+
+      /* ✅ SET-1 onwards */
       {
         set: "SET-1",
         desc: "Lists + NumPy",
@@ -541,7 +847,6 @@ print("Product with highest total sales (1-based):", highest_product_index + 1)
         ]
       },
 
-      /* ✅ SET-2 MEGA (MOST PROBABLE QUESTIONS) */
       {
         set: "SET-2",
         desc: "MEGA Predicted Set (Most Probable Questions)",
@@ -578,7 +883,6 @@ print("(b) Sorted Union List:", sorted_union_list)
 print("(c) Unique count in union:", len(union_set))
 `
           },
-
           {
             title: `Q2: (Probable) Dictionary + Sorting
 Given the list:
@@ -616,7 +920,6 @@ sorted_items = sorted(freq.items(), key=lambda kv: kv[1], reverse=True)
 print("(c) Sorted by frequency (desc):", sorted_items)
 `
           },
-
           {
             title: `Q3: (Probable) String Programs
 Given:
@@ -659,7 +962,6 @@ replaced = s.replace("Science", "Engineering")
 print("(d) After replace:", replaced)
 `
           },
-
           {
             title: `Q4: (Probable) Lists (Second largest + Kth largest)
 Given a list of integers:
@@ -708,7 +1010,6 @@ for _ in range(k):
 print("(c) 3rd largest:", kth)
 `
           },
-
           {
             title: `Q5: (Probable) Prime Numbers in Range + Count
 (a) Print all prime numbers between 1 and 50
@@ -737,7 +1038,6 @@ print("(a) Primes between 1 and 50:", primes)
 print("(b) Prime count:", len(primes))
 `
           },
-
           {
             title: `Q6: (Probable) Palindrome / Armstrong Check (Functions)
 (a) Check whether a number is Palindrome
@@ -771,7 +1071,6 @@ print("(a) Palindrome:", num1, "->", is_palindrome(num1))
 print("(b) Armstrong:", num2, "->", is_armstrong_3digit(num2))
 `
           },
-
           {
             title: `Q7: (Probable) Recursion Programs
 (a) Find factorial of a number using recursion
@@ -806,7 +1105,6 @@ print("(b) Sum of digits of", x, "=", sum_digits(x))
 print("(c) GCD of", a, "and", b, "=", gcd(a, b))
 `
           },
-
           {
             title: `Q8: (Probable) Pattern Printing (Nested Loops)
 (a) Print a right triangle star pattern for n=5
@@ -836,7 +1134,6 @@ for i in range(1, n + 1):
     print(line)
 `
           },
-
           {
             title: `Q9: (Probable) Exception Handling
 Write a program to take two numbers as input and perform division.
@@ -864,7 +1161,6 @@ finally:
     print("Done")
 `
           },
-
           {
             title: `Q10: (Probable) File Handling (Basic)
 (a) Write student names into a file
@@ -1390,8 +1686,8 @@ print("Program 2 completed ->", summary_file)
     ];
 
     const TOPIC_PILLS = [
+      {label:"Notes", value:"NOTES"},
       {label:"NumPy", value:"numpy"},
-      {label:"Pandas", value:"pandas"},
       {label:"String", value:"string"},
       {label:"List", value:"list"},
       {label:"Dictionary", value:"dictionary"},
@@ -1556,7 +1852,6 @@ print("Program 2 completed ->", summary_file)
       }
     }
 
-    /* ✅ AUTO THEME (system + saved preference) */
     function applyTheme(t){
       document.documentElement.setAttribute("data-theme", t);
       localStorage.setItem("pfcd_theme", t);
