@@ -541,6 +541,131 @@ print("Product with highest total sales (1-based):", highest_product_index + 1)
         ]
       },
 
+      /* ✅ SET-2 ADDED COMPLETELY (PREDICTED) */
+      {
+        set: "SET-2",
+        desc: "Predicted Set (Probable Q1-Q3)",
+        questions: [
+          {
+            title: `Q1: (Probable) Tuples + Sets
+(a) Given two tuples, convert them into sets and find their union, intersection, and difference.
+(b) Convert the final union set back to a sorted list (ascending order).
+(c) Count how many unique elements are present in the union.`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q1 (PREDICTED)
+# =========================
+# Tuples + Sets
+
+t1 = (10, 20, 30, 40, 50, 20)
+t2 = (30, 40, 60, 70, 10)
+
+s1 = set(t1)
+s2 = set(t2)
+
+union_set = s1.union(s2)
+intersection_set = s1.intersection(s2)
+difference_set = s1.difference(s2)
+
+sorted_union_list = sorted(list(union_set))
+
+print("Tuple 1:", t1)
+print("Tuple 2:", t2)
+print("(a) Union:", union_set)
+print("(a) Intersection:", intersection_set)
+print("(a) Difference (t1 - t2):", difference_set)
+print("(b) Sorted Union List:", sorted_union_list)
+print("(c) Unique count in union:", len(union_set))
+`
+          },
+
+          {
+            title: `Q2: (Probable) Dictionary + Sorting
+Given the list:
+items = ["pen", "book", "pen", "pencil", "book", "pen", "eraser"]
+(a) Create a dictionary to count frequency of each item.
+(b) Find the most frequent item without using max().
+(c) Sort the dictionary by frequency in descending order (show as list of tuples).`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q2 (PREDICTED)
+# =========================
+# Dictionary Frequency + Sorting
+
+items = ["pen", "book", "pen", "pencil", "book", "pen", "eraser"]
+
+freq = {}
+for x in items:
+    freq[x] = freq.get(x, 0) + 1
+
+print("(a) Frequency dictionary:", freq)
+
+# (b) Most frequent without max()
+most_item = None
+most_count = None
+
+for k, v in freq.items():
+    if most_count is None or v > most_count:
+        most_count = v
+        most_item = k
+
+print("(b) Most frequent item:", most_item, "| Count:", most_count)
+
+# (c) Sort by frequency descending
+sorted_items = sorted(freq.items(), key=lambda kv: kv[1], reverse=True)
+print("(c) Sorted by frequency (desc):", sorted_items)
+`
+          },
+
+          {
+            title: `Q3: (Probable) Functions + Recursion / Loops
+(a) Write a function to check whether a number is palindrome or not.
+(b) Write a function to generate Fibonacci series up to n terms using loop.
+(c) Write a program to find sum of digits of a number using recursion.`,
+            options: [],
+            code: `# =========================
+# SET-2 : Q3 (PREDICTED)
+# =========================
+
+# (a) Palindrome check
+def is_palindrome_number(n):
+    temp = n
+    rev = 0
+    while temp > 0:
+        rev = rev * 10 + (temp % 10)
+        temp //= 10
+    return rev == n
+
+num = 121
+print("(a) Palindrome check:", num, "->", "Palindrome" if is_palindrome_number(num) else "Not Palindrome")
+print()
+
+# (b) Fibonacci series using loop
+def fibonacci_terms(n):
+    a, b = 0, 1
+    series = []
+    for _ in range(n):
+        series.append(a)
+        a, b = b, a + b
+    return series
+
+n_terms = 8
+print("(b) Fibonacci series:", fibonacci_terms(n_terms))
+print()
+
+# (c) Sum of digits using recursion
+def sum_digits(n):
+    if n == 0:
+        return 0
+    return (n % 10) + sum_digits(n // 10)
+
+x = 9876
+print("(c) Sum of digits:", x, "->", sum_digits(x))
+`
+          }
+        ]
+      },
+
       {
         set: "SET-3",
         desc: "Strings + Lists",
@@ -1039,7 +1164,8 @@ print("Program 2 completed ->", summary_file)
       {label:"File", value:"file"},
       {label:"Exception", value:"exception"},
       {label:"Perfect", value:"perfect"},
-      {label:"Leap", value:"leap"}
+      {label:"Leap", value:"leap"},
+      {label:"Set-2 Pred", value:"SET-2"}
     ];
 
     const $ = (id) => document.getElementById(id);
@@ -1065,7 +1191,7 @@ print("Program 2 completed ->", summary_file)
     }
 
     function cleanCode(code){
-      const lines = code.split("\n");
+      const lines = code.split("\\n");
       const filtered = lines.filter(line => {
         const t = line.trim();
         if (t.startsWith("# Sample Output")) return false;
@@ -1073,7 +1199,7 @@ print("Program 2 completed ->", summary_file)
         if (t.startsWith("# Example Output")) return false;
         return true;
       });
-      return filtered.join("\n").trim() + "\n";
+      return filtered.join("\\n").trim() + "\\n";
     }
 
     function renderTopPills(){
@@ -1235,22 +1361,22 @@ print("Program 2 completed ->", summary_file)
     searchInput.addEventListener("input", renderQuestions);
 
     function buildExportText(){
-      let out = "PFCD Lab Exam Portal Export\n";
-      out += "====================================\n\n";
+      let out = "PFCD Lab Exam Portal Export\\n";
+      out += "====================================\\n\\n";
       DATA.forEach(setObj=>{
-        out += setObj.set + " - " + setObj.desc + "\n";
-        out += "------------------------------------\n\n";
+        out += setObj.set + " - " + setObj.desc + "\\n";
+        out += "------------------------------------\\n\\n";
         setObj.questions.forEach((q, i)=>{
-          out += `${setObj.set} Q${i+1}\n`;
-          out += q.title + "\n\n";
+          out += `${setObj.set} Q${i+1}\\n`;
+          out += q.title + "\\n\\n";
           if(q.options && q.options.length){
-            out += "Options:\n";
-            q.options.forEach(op => out += " - " + op + "\n");
-            out += "\n";
+            out += "Options:\\n";
+            q.options.forEach(op => out += " - " + op + "\\n");
+            out += "\\n";
           }
-          out += "CODE:\n";
-          out += q.code + "\n";
-          out += "====================================\n\n";
+          out += "CODE:\\n";
+          out += q.code + "\\n";
+          out += "====================================\\n\\n";
         });
       });
       return out;
